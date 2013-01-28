@@ -23,7 +23,7 @@
 // @name				MarmoUI
 // @description			Marmoset Improved! Better UI and functionality
 // @author				Erica Xu (www.ericaxu.com) and Shida Li (www.lishid.com)
-// @version				1.0
+// @version				1.1
 // @include				*marmoset.student.cs.uwaterloo.ca*
 // ==/UserScript==
 //
@@ -141,6 +141,7 @@ function runMarmoUI()
 		{
 			navText = navText.substring(navText.indexOf(":") + 1);
 			navText = "<a href='/'>Marmoset</a> | " + navText;
+			navText = navText.replace(/\|/g, "&rsaquo;");
 			nav.html(navText);
 		}
 
