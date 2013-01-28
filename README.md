@@ -2,11 +2,11 @@ MarmoUI
 =======
 
 Marmoset Improved! Better UI and functionality
-===
+
 
 
 Installation procedures
-===
+======
 
 Google Chrome:
 * Go to Wrench-Menu -> Tools -> Extensions
