@@ -24,7 +24,7 @@
 // @description			Marmoset Improved! Better UI and functionality
 // @author				Erica Xu (www.ericaxu.com) and Shida Li (www.lishid.com)
 // @version				1.1
-// @include				*marmoset.student.cs.uwaterloo.ca*
+// @include				https://marmoset.student.cs.uwaterloo.ca*
 // ==/UserScript==
 //
 // Some functionalities are inspired by Marmoset Plus from http://userscripts.org/scripts/show/134262
@@ -101,6 +101,25 @@ function loadMarmoUI(run)
 
 function runMarmoUI()
 {
+	//Script-wise global variables that we can use here
+	var reload_time = 5; // Time to wait until reload, in seconds
+
+	//Add a jquery highlight function
+	jQuery.fn.highlight = function() {
+	$(this).each(function() {
+        var el = $(this);
+        $("<div/>")
+        .width(el.outerWidth())
+        .height(el.outerHeight())
+        .css({
+            "position": "absolute",
+            "left": el.offset().left,
+            "top": el.offset().top,
+            "background-color": "#ffff99",
+            "opacity": "1",
+            "z-index": "9999999"
+        }).appendTo('body').fadeOut(500).queue(function () { $(this).remove(); });
+	});};
 	//Utilities
 	var PAGE = {
 		LOGIN: 				{value: 0, link: "marmoset"},
@@ -121,6 +140,26 @@ function runMarmoUI()
 			$(this).siblings().removeClass("selected");
 			$(this).addClass("selected");
 		});
+	}
+
+	//Load a page asynchronously and call "callback" when done
+	function asyncLoadPage(element, requestURL, callback)
+	{
+		$.ajax({ url: requestURL, cache: false }).done(function(html){ callback(element, html, requestURL); });
+	}
+
+	//Queue an asynchronous reload, should contain a <span class='update'></span> for updating the countdown
+	function queueAsyncReload(tableCell, requestURL, callback, countdown)
+	{
+		tableCell.find(".update").html(countdown);
+		if(countdown == 0)
+		{
+			asyncLoadPage(tableCell, requestURL, callback);
+		}
+		else
+		{
+			window.setTimeout(function() { queueAsyncReload(tableCell, requestURL, callback, countdown - 1); }, 1000);
+		}
 	}
 
 	function applyChangesAll(current_page)
@@ -163,25 +202,96 @@ function runMarmoUI()
 
 	function applyChangesProblemsList()
 	{
-		function asyncLoadPage(element, requestURL, callback)
+		//When async callbacks, decrypt the result from the page and integrate into the page
+		function loadSubmission(tableCell, requestResult, requestURL)
 		{
-			$.ajax({ url: requestURL, cache: false }).done(function(html){ callback(element, html, requestURL); });
-		}
-
-		function loadSubmission(tableRow, requestResult, requestURL)
-		{
-			//Find the entry that should contain the submission
-			var entry = tableRow.find("td:eq(2)").html("");
+			//Highlight the cell since we just updated it
+			tableCell.highlight();
 			//Get the page from the request
 			var page = $(requestResult.trim());
-			//Get the scores
-			var scores = page.find("tr:eq(1) td:contains('/')");
+			//Get the first line of submission
+			var firstLine = page.find("tr:eq(1)");
+			//No submission yet
+			if(firstLine.length == 0)
+			{
+				tableCell.html("No submission");
+				return;
+			}
 
-			scores.each(function(index, item) {
-				 var matches = $(item).html().match(/(\d+)\s\/\s(\d+)/);
-				 if(entry.html() != "") entry.append(" & ");
-				 entry.append(matches[1] + " / " + matches[2]);
-			});
+			//Find Link to the first submission and put an anchor linking to it
+			var link = firstLine.find("a:contains('view')").attr("href");
+			tableCell.html("<a href='" + link + "'></a>");
+			//Check if latest solution is untested
+			var untested = firstLine.find("td:contains('tested yet')");
+			//Check if latest solution failed to compile
+			var uncompiled = firstLine.find("td:contains('not compile')");
+
+			//If untested, show it as untested and queue an async reload
+			if(untested.length > 0)
+			{
+				tableCell.find("a").html("Not tested (reload in <span class='update'></span> s)");
+				queueAsyncReload(tableCell, requestURL, loadSubmission, reload_time);
+			}
+			//If failed to compile, show it as uncompiled and exits
+			else if(uncompiled.length > 0)
+			{
+				tableCell.find("a").html("Compilation failed");
+				return;
+			}
+			else
+			{
+				//Get the scores
+				var scores = firstLine.find("td:contains('/')");
+				var anchor = tableCell.find("a");
+				//Should match Public test and Release test
+				scores.each(function(index, item) {
+					//Match all int/int
+					var matches = $(item).html().match(/(\d+)\s\/\s(\d+)/);
+					//Put an & sign in between
+					if(anchor.html() != "") anchor.append(" & ");
+					anchor.append(matches[1] + " / " + matches[2]);
+				});
+			}
+		}
+
+		function loadTokensFromSubmission(tableCell, requestResult, requestURL)
+		{
+			//Get the page from the request
+			var page = $(requestResult.trim());
+			//Get the first line of submission
+			var firstLine = page.find("tr:not(:contains('not compile')):eq(1)");
+			//No submission yet
+			if(firstLine.length == 0)
+			{
+				tableCell.html("3 tokens");
+			}
+			else
+			{
+				//Find Link to the first submission and put an anchor linking to it
+				var link = firstLine.find("a:contains('view')").attr("href");
+				//async load the latest submission to find the tokens
+				asyncLoadPage(tableCell, link, loadTokens);
+			}
+		}
+
+		//When async callbacks, decrypt the result from the page and integrate into the page
+		function loadTokens(tableCell, requestResult, requestURL)
+		{
+			//Highlight the cell since we just updated it
+			tableCell.highlight();
+			try
+			{
+				//Grab the token from the page
+				var tokens = requestResult.match(/You currently have \d+ release/)[0].match(/\d+/)[0];
+				//Show the tokens
+				tableCell.html(tokens + " tokens");
+			}
+			catch(error)
+			{
+				//Set to 3 tokens if we can't find the token string
+				tableCell.html("3 tokens");
+			}
+			//TODO Find the time for each token and try to parse the time
 		}
 
 		//Remove useless breadcrumb
@@ -199,11 +309,16 @@ function runMarmoUI()
 		$("tr th:nth-child(2)").after("<th>Last submission</th>");
 		$("tr td:nth-child(2)").after("<td>Loading...</td>");
 
-		//Load the submission results asychronously via ajax
+		//Add the tokens column
+		$("tr th:nth-child(3)").after("<th>Tokens</th>");
+		$("tr td:nth-child(3)").after("<td>Loading...</td>");
+
+		//Load the tokens and submission results asychronously via ajax
 		$("tr").each(function(index, row){
 				if(index == 0) return;
 				var link = $(row).find("a:contains('view')").attr("href");
-				asyncLoadPage($(row), link, loadSubmission);
+				asyncLoadPage($(row).find("td:eq(2)"), link, loadSubmission);
+				asyncLoadPage($(row).find("td:eq(3)"), link, loadTokensFromSubmission);
 		});
 
 		//Add the click events for the submission popups
@@ -224,7 +339,7 @@ function runMarmoUI()
 			popup.append("<p>Submissions: <a href='" + row.find("td:eq(1) a").attr("href") + "'>view</a></p>");
 			popup.append("<p>Due: " + row.find("td:eq(4)").html() + "</p>");
 			//Add the submission form
-			popup.append("<form enctype='multipart/form-data' action='/action/SubmitProjectViaWeb' method='POST'>" +
+			popup.append("<form target='sumbission-loader' enctype='multipart/form-data' action='/action/SubmitProjectViaWeb' method='POST'>" +
 			"<input type='hidden' name='projectPK' value='" + projectPK + "'>" +
 			"<input type='hidden' name='submitClientTool' value='web'>" +
 			"<input type='file' name='file' size='20'></form>" + 
@@ -241,6 +356,9 @@ function runMarmoUI()
 		//Event for closing the submission popup
 		$(".submission-bg").click(function(event){ $("#submission-box").hide(); });
 
+		//Add the iframe for submission
+		$("body").append("<iframe id='sumbission-loader' name='sumbission-loader' style='display:none;'></iframe>");
+		$("#sumbission-loader").load(function(){ document.location.reload(true); });
 		//Add highlight to table rows
 		addTableHighlight();
 	}
