@@ -1,1 +1,3 @@
-#notifier-update-1-1{ display : block !important; }
+body:not(.marmo_ui_1_1) .notifier-update{
+   display : block !important; 
+}
