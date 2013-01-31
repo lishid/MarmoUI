@@ -105,7 +105,7 @@ function runMarmoUI()
 	var reload_time = 5; // Time to wait until reload, in seconds
 	var update_location = "https://raw.github.com/lishd/MarmoUI/master/updater.css"; //latest version inside a CSS
 	var update_download = "http://userscripts.org/scripts/source/157749.user.js"; //Download page
-	var current_version = "marmo_ui_1_0"; //Current version to check updates
+	var current_version = "marmo_ui_1_1"; //Current version to check updates
 
 	//Add a jquery highlight function
 	jQuery.fn.highlight = function() {
@@ -208,7 +208,7 @@ function runMarmoUI()
 
 		//Load the updater
 		$("head").append("<link href='" + update_location + "' type='text/css' rel='stylesheet'/>");
-		$("body").prepend("<div class='" + current_version + " notifier-update'><a href='" + update_download + "'>Update available, click here.</a></div>");
+		$("body").prepend("<div style='display:none;' class='" + current_version + " notifier-update'><a href='" + update_download + "'>Update available, click here.</a></div>");
 
 		//Google analytics helps for statistics
 		$("body").append("<script type='text/javascript'>var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-38018139-1']); _gaq.push(['_trackPageview']);(function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>");
