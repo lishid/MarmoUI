@@ -32,7 +32,7 @@
 
 
 //Variables here are volatile. They are not usable from within the page, but only within this script
-var global_css = "body{font-family:'Droid Sans',helvetica,arial,sans-serif;color:#eee;background:#022d49;margin:0}h1{font-family:'Droid Sans',helvetica,arial,sans-serif;font-size:1.7em;font-weight:normal;margin:1em 0 .5em 7.5%}h2{font-family:'Droid Sans',helvetica,arial,sans-serif;font-size:1.5em;font-weight:normal;margin:1em 0 .5em 7.5%}h3{font-family:'Droid Sans',helvetica,arial,sans-serif;font-size:1.3em;font-weight:normal;margin:1em 0 .5em 7.5%;color:#eee}p{margin:1em 7.5%}a:link{color:#fc3;-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out}a:visited{color:#3e90c6}a:hover{color:#ff8700}div.header{background:#022d49;padding:4em 0 3em 0;margin:0;color:white;border:0}div.header p{text-align:center;font:4em 'Lobster',helvetica,sans-serif;padding:.3em;margin:0}div.breadcrumb{background:inherit;width:85%;margin:0 6% 0 7.5%;padding:0}div.breadcrumb p{background:inherit;font-family:'Droid Sans',helvetica,arial,sans-serif;font-variant:normal;width:80%;margin:0 6% 0 0;padding:.5em 0 0 0}div.logout,div.submit-button{background:#fc3;font-family:'Droid Sans',helvetica,arial,sans-serif;color:#03426a;width:7em;padding:.1em .5em;margin:0;text-align:center;font-weight:normal;-moz-border-radius:50px;-webkit-border-radius:50px;border-radius:50px;-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity = 91);filter:alpha(opacity = 91);-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out;cursor:pointer}div.logout p,div.submit-button p{font-size:1.5em;font-variant:normal;padding:0;margin:.1em auto}div.logout:hover,div.submit-button:hover{background:#eee;color:#03426a}div.logout a{font-family:inherit!important;font-weight:normal;color:#03426a!important;text-decoration:none!important}div.submit-button a{font-family:inherit;font-weight:normal;color:#111;text-decoration:none}div.submit-button{margin:1.5em 0 0 7.5%}div.breadcrumb p.nav{font-family:'Droid Sans',helvetica,arial,sans-serif;font-size:1.5em;font-variant:normal;font-weight:normal;display:inline-block;padding:0;margin:0}div.breadcrumb p a:link,div.breadcrumb p a:visited{color:#fc3;text-decoration:underline}div.breadcrumb p a:hover{color:#ff8700}div.footer{border-top:0;text-align:center;padding:.5em;margin:1em}div.footer a:visited{color:#fc3}div.footer a:hover{color:#ff8700}ul.my-courses,ul.all-courses{margin:0 0 0 5%;list-style:none;font-size:1.1em}ul.my-courses li,ul.all-courses li{margin:.3em 0}ul.release-tokens{margin:0 0 0 5%;list-style:none}ul.release-tokens li{margin:0 0 0 2%}table{border-style:ridge;border:0;border-collapse:collapse;width:100%;margin:2em 0 0 0;font-size:1em}table.submissions,table.stacktrace{width:85%;margin:2em auto 0 auto}form[name='submitform']{background:#fc3;color:#111;width:45%;margin:2em auto 0 auto;padding:.5em;-webkit-border-radius:1em;-moz-border-radius:1em;border-radius:1em;font-size:1.2em;text-align:center}form[name='submitform'] p{text-align:center;font-weight:bold}form[name='submitform'] input[type='submit']{color:#eee;background:#022d49;height:2em;width:6em;-webkit-border-radius:1em;-moz-border-radius:1em;border-radius:1em;border:0;cursor:pointer;-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out}form[name='submitform'] input[type='submit']:hover{background:#25a0ca}div.submission-bg{background:#fff;opacity:.7;position:fixed;width:100%;height:100%;top:0;left:0}div.submission-popup{background-color:#fc3;color:#111;display:block;border:0;position:fixed;text-align:left;width:50%;left:25%;top:30%;padding:1.5em}div.submission-popup a:link,div.submission-popup a:visited{color:#022d49}div.submission-popup h2{text-align:center}div.submission-popup h2,div.submission-popup p{color:#111;margin:.5em 0 1em 0}div.submission-popup form{margin:1em auto}a#submission-close{margin:0;width:50%;display:inline-block;position:inherit;text-align:right;color:#111;text-decoration:underline}div.submission-popup div.submit-button{margin:.5em auto;background:#c1dbed}div.submission-popup div.submit-button a:link{color:#fc3;text-decoration:none}div.submission-popup div.submit-button p{margin:.1em auto}div.submission-popup div.submit-button:hover{background:#eee}table a:link{color:#03426a;font-weight:bold}table a:visited{color:#0680cd}table a:hover{color:#ff8700}th{background:#2c6b94;color:#eee;font-size:1.1em;font-weight:normal;text-transform:capitalize!important;text-align:center;vertical-align:center;padding:1em .5em;border:0;margin:0}td{text-align:center;vertical-align:middle;padding:.5em;margin:0;border:0}th.description,td.description{text-align:center}td.left{text-align:left}td.long-result{text-align:left}th.number,td.number{text-align:right}col.right{border-right:0 solid black}div.build-output{margin:1em 7.5%;width:85%;background:#ffe799;color:#111;overflow-x:scroll}div.build-output pre{padding:1em 2em;letter-spacing:1px;font-family:monospace;white-space:pre;letter-spacing:1px}form{padding:0;margin:0}table.stacktrace td{padding-left:3em}input[type='file'],input[type='submit'],input[type='hidden']{font-family:'Droid Sans',helvetica,arial,sans-serif!important;font-size:1em}table.form td{padding:.25em;text-align:left}table.form td.label{font-weight:bold;text-align:right;background:#fff9e5;padding-left:3em;padding-right:.5em}table.form tr.submit td{background:#fc3;text-align:center}tr{color:#111;-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out}table tr:hover{background:#9ac5e1}tr.r0{background:#f5fbff}tr.r1{background:#e4f4fe}tr.selected,tr.selected:hover{background:#fc3}tr.highlight{background:#00ffaf}td.passed{background:#5fbf5f}td.failed{background:#9f3f3f}td.error{background:#c00}td.huh{background:#fc3}td.timeout{background:#f0f}td.not_implemented{background:#fff}td.could_not_run{background:#808080}td.warning{background:#0000df}table.codetable{border-style:none;border-width:0;border-collapse:collapse;margin:0}table.codetable td{text-align:left;vertical-align:baseline;padding:0;border:0;margin:0}table.codetable td.codecoveredcount{text-align:right;background:#abcabd;vertical-align:baseline;padding:0 2px;border:0;margin:0}table.codetable td.codeuncoveredcount{text-align:right;background:#f0c8c8;vertical-align:baseline;padding:0 2px;border:0;margin:0}table.codetable td.codeuncovered{text-align:left;background:#f0c8c8;vertical-align:baseline;padding:0 2px;border:0;margin:0}table.codetable td.linenumber{text-align:right;background:#fff;vertical-align:baseline;padding:0 2px;border:0;margin:0}.codehighlight{background:#fff3cc}.codekeyword{color:green;font-weight:bold}.codestring{color:fuchsia}.codeliteral{color:fuchsia}.codecomment{color:blue;font-style:italic}.statusmessage{border:1px solid #cedff2;background-color:#f5faff;color:#039;padding:7px}";
+var global_css = "body{font-family:'Droid Sans',helvetica,arial,sans-serif;color:#eee;background:#022d49;margin:0}h1{font-family:'Droid Sans',helvetica,arial,sans-serif;font-size:1.7em;font-weight:normal;margin:1em 0 .5em 7.5%}h2{font-family:'Droid Sans',helvetica,arial,sans-serif;font-size:1.5em;font-weight:normal;margin:1em 0 .5em 7.5%}h3{font-family:'Droid Sans',helvetica,arial,sans-serif;font-size:1.3em;font-weight:normal;margin:1em 0 .5em 7.5%;color:#eee}p{margin:1em 7.5%}a:link{color:#fc3;-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out}a:visited{color:#3e90c6}a:hover{color:#ff8700}div.header{background:#022d49;padding:4em 0 3em 0;margin:0;color:white;border:0}div.header p{text-align:center;font:4em 'Lobster',helvetica,sans-serif;padding:.3em;margin:0}div.breadcrumb{background:inherit;width:85%;margin:0 6% 0 7.5%;padding:0}div.breadcrumb p{background:inherit;font-family:'Droid Sans',helvetica,arial,sans-serif;font-variant:normal;width:80%;margin:0 6% 0 0;padding:.5em 0 0 0}div.logout,div.submit-button{background:#fc3;font-family:'Droid Sans',helvetica,arial,sans-serif;color:#03426a;width:7em;padding:.1em .5em;margin:0;text-align:center;font-weight:normal;-moz-border-radius:50px;-webkit-border-radius:50px;border-radius:50px;-ms-filter:progid:DXImageTransform.Microsoft.Alpha(Opacity = 91);filter:alpha(opacity = 91);-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out;cursor:pointer}div.logout p,div.submit-button p{font-size:1.5em;font-variant:normal;padding:0;margin:.1em auto}div.logout:hover,div.submit-button:hover{background:#eee;color:#03426a}div.logout a{font-family:inherit!important;font-weight:normal;color:#03426a!important;text-decoration:none!important}div.submit-button a{font-family:inherit;font-weight:normal;color:#111;text-decoration:none}div.submit-button{margin:1.5em 0 0 7.5%}div.breadcrumb p.nav{font-family:'Droid Sans',helvetica,arial,sans-serif;font-size:1.5em;font-variant:normal;font-weight:normal;display:inline-block;padding:0;margin:0}div.breadcrumb p a:link,div.breadcrumb p a:visited{color:#fc3;text-decoration:underline}div.breadcrumb p a:hover{color:#ff8700}div.footer{border-top:0;text-align:center;padding:.5em;margin:1em}div.footer a:visited{color:#fc3}div.footer a:hover{color:#ff8700}ul.my-courses,ul.all-courses{margin:0 0 0 5%;list-style:none;font-size:1.1em}ul.my-courses li,ul.all-courses li{margin:.3em 0}ul.release-tokens{margin:0 0 0 5%;list-style:none}ul.release-tokens li{margin:0 0 0 2%}table{border-style:ridge;border:0;border-collapse:collapse;width:100%;margin:2em 0 0 0;font-size:1em}table.submissions,table.stacktrace{width:85%;margin:2em auto 0 auto}form[name='submitform']{background:#fc3;color:#111;width:45%;margin:2em auto 0 auto;padding:.5em;-webkit-border-radius:1em;-moz-border-radius:1em;border-radius:1em;font-size:1.2em;text-align:center}form[name='submitform'] p{text-align:center;font-weight:bold}form[name='submitform'] input[type='submit']{color:#eee;background:#022d49;height:2em;width:6em;-webkit-border-radius:1em;-moz-border-radius:1em;border-radius:1em;border:0;cursor:pointer;-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out}form[name='submitform'] input[type='submit']:hover{background:#25a0ca}div.submission-bg{background:#fff;opacity:.7;position:fixed;width:100%;height:100%;top:0;left:0}div.submission-popup{background-color:#fc3;color:#111;display:block;border:0;position:fixed;text-align:left;width:50%;left:25%;top:30%;padding:1.5em}div.submission-popup a:link,div.submission-popup a:visited{color:#022d49}div.submission-popup h2{text-align:center}div.submission-popup h2,div.submission-popup p{color:#111;margin:.5em 0 1em 0}div.submission-popup form{margin:1em auto}a#submission-close{margin:0;width:50%;display:inline-block;position:inherit;text-align:right;color:#111;text-decoration:underline}div.submission-popup div.submit-button{margin:.5em auto;background:#c1dbed}div.submission-popup div.submit-button a:link{color:#fc3;text-decoration:none}div.submission-popup div.submit-button p{margin:.1em auto}div.submission-popup div.submit-button:hover{background:#eee}table a:link{color:#03426a;font-weight:bold}table a:visited{color:#03426a}table a:hover{color:#ff8700}th{background:#2c6b94;color:#eee;font-size:1.1em;font-weight:normal;text-transform:capitalize!important;text-align:center;vertical-align:center;padding:1em .5em;border:0;margin:0}td{text-align:center;vertical-align:middle;padding:.5em;margin:0;border:0}th.description,td.description{text-align:center}td.left{text-align:left}td.long-result{text-align:left}th.number,td.number{text-align:right}col.right{border-right:0 solid black}div.build-output{margin:1em 7.5%;width:85%;background:#ffe799;color:#111;overflow-x:scroll}div.build-output pre{padding:1em 2em;letter-spacing:1px;font-family:monospace;white-space:pre;letter-spacing:1px}form{padding:0;margin:0}table.stacktrace td{padding-left:3em}input[type='file'],input[type='submit'],input[type='hidden']{font-family:'Droid Sans',helvetica,arial,sans-serif!important;font-size:1em}table.form td{padding:.25em;text-align:left}table.form td.label{font-weight:bold;text-align:right;background:#fff9e5;padding-left:3em;padding-right:.5em}table.form tr.submit td{background:#fc3;text-align:center}tr{color:#111;-webkit-transition:all .3s ease-in-out;-moz-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out}table tr:hover{background:#9ac5e1}tr.r0{background:#f5fbff}tr.r1{background:#e4f4fe}tr.selected,tr.selected:hover{background:#fc3}tr.highlight{background:#00ffaf}td.passed{background:#5fbf5f}td.failed{background:#9f3f3f}td.error{background:#c00}td.huh{background:#fc3}td.timeout{background:#f0f}td.not_implemented{background:#fff}td.could_not_run{background:#808080}td.warning{background:#0000df}table.codetable{border-style:none;border-width:0;border-collapse:collapse;margin:0}table.codetable td{text-align:left;vertical-align:baseline;padding:0;border:0;margin:0}table.codetable td.codecoveredcount{text-align:right;background:#abcabd;vertical-align:baseline;padding:0 2px;border:0;margin:0}table.codetable td.codeuncoveredcount{text-align:right;background:#f0c8c8;vertical-align:baseline;padding:0 2px;border:0;margin:0}table.codetable td.codeuncovered{text-align:left;background:#f0c8c8;vertical-align:baseline;padding:0 2px;border:0;margin:0}table.codetable td.linenumber{text-align:right;background:#fff;vertical-align:baseline;padding:0 2px;border:0;margin:0}.codehighlight{background:#fff3cc}.codekeyword{color:green;font-weight:bold}.codestring{color:fuchsia}.codeliteral{color:fuchsia}.codecomment{color:blue;font-style:italic}.statusmessage{border:1px solid #cedff2;background-color:#f5faff;color:#039;padding:7px}";
 var global_fonts = "WebFontConfig = { google: { families: ['Droid+Sans::latin', 'Lobster::latin'] } };";
 
 function loadMarmoUI(run)
@@ -120,6 +120,7 @@ function runMarmoUI()
             "z-index": "9999999"
         }).appendTo('body').fadeOut(500).queue(function () { $(this).remove(); });
 	});};
+
 	//Utilities
 	var PAGE = {
 		LOGIN: 				{value: 0, link: "marmoset"},
@@ -143,9 +144,15 @@ function runMarmoUI()
 	}
 
 	//Load a page asynchronously and call "callback" when done
-	function asyncLoadPage(element, requestURL, callback)
+	function asyncLoadPage(element, requestURL, callback, retry)
 	{
-		$.ajax({ url: requestURL, cache: false }).done(function(html){ callback(element, html, requestURL); });
+		if(retry < 0) retry = 10;
+		if(retry == 0) return;
+		$.ajax({ url: requestURL, cache: false })
+		//Done then callback
+		.done(function(html){ callback(element, html, requestURL); })
+		//Failed then retry
+		.fail(function(){ asyncLoadPage(element, requestURL, callback, retry - 1); });
 	}
 
 	//Queue an asynchronous reload, should contain a <span class='update'></span> for updating the countdown
@@ -154,7 +161,7 @@ function runMarmoUI()
 		tableCell.find(".update").html(countdown);
 		if(countdown == 0)
 		{
-			asyncLoadPage(tableCell, requestURL, callback);
+			asyncLoadPage(tableCell, requestURL, callback, -1);
 		}
 		else
 		{
@@ -270,7 +277,7 @@ function runMarmoUI()
 				//Find Link to the first submission and put an anchor linking to it
 				var link = firstLine.find("a:contains('view')").attr("href");
 				//async load the latest submission to find the tokens
-				asyncLoadPage(tableCell, link, loadTokens);
+				asyncLoadPage(tableCell, link, loadTokens, -1);
 			}
 		}
 
@@ -315,10 +322,10 @@ function runMarmoUI()
 
 		//Load the tokens and submission results asychronously via ajax
 		$("tr").each(function(index, row){
-				if(index == 0) return;
-				var link = $(row).find("a:contains('view')").attr("href");
-				asyncLoadPage($(row).find("td:eq(2)"), link, loadSubmission);
-				asyncLoadPage($(row).find("td:eq(3)"), link, loadTokensFromSubmission);
+			if(index == 0) return;
+			var link = $(row).find("a:contains('view')").attr("href");
+			asyncLoadPage($(row).find("td:eq(2)"), link, loadSubmission, -1);
+			asyncLoadPage($(row).find("td:eq(3)"), link, loadTokensFromSubmission, -1);
 		});
 
 		//Add the click events for the submission popups
@@ -347,6 +354,7 @@ function runMarmoUI()
 
 			//Fix the anchor having an extra space at the end
 			$("h2 a").each(function (index, row) {$(row).text($(row).text().trim());});
+			//Show the popup box
 			$("#submission-box").show();
 		});
 
@@ -355,6 +363,7 @@ function runMarmoUI()
 		$("#submission-box").hide();
 		//Event for closing the submission popup
 		$(".submission-bg").click(function(event){ $("#submission-box").hide(); });
+		$(document).keydown(function(e){ if(e.keyCode == 27){ $("#submission-box").hide(); }});
 
 		//Add the iframe for submission
 		$("body").append("<iframe id='sumbission-loader' name='sumbission-loader' style='display:none;'></iframe>");
@@ -365,10 +374,33 @@ function runMarmoUI()
 
 	function applyChangesSubmissionList()
 	{
+		//When async callbacks, refresh the page if can't find not tested yet
+		function checkReload(tableCell, requestResult, requestURL)
+		{
+			//Highlight the cell since we just updated it
+			tableCell.highlight();
+
+			//Get the page from the request
+			var page = $(requestResult.trim());
+			//Get the first line of submission
+			var linesWithUntested = page.find("tr:contains('tested yet')");
+
+			//Retry async load since there's still untested stuff
+			if(linesWithUntested.length > 0 || requestResult == "")
+			{
+				tableCell.html("Not tested (reload in <span class='update'></span> s)");
+				queueAsyncReload(tableCell, requestURL, checkReload, reload_time);
+			}
+			else
+			{
+				document.location.reload(true);
+			}
+		}
+
 		//Add CSS class
 		$("table").addClass("submissions");
 		var submitLink = $("h3").eq(0).html();
-		$("h3").eq(0).replaceWith("<div class='submit-button'><p>" + submitLink + "</p></p>");
+		$("h3").eq(0).replaceWith("<div class='submit-button'><p>" + submitLink + "</p></div>");
 		
 		//Remove useless header for project. It's already in breadcrumb anyways
 		$("h1").remove();
@@ -376,6 +408,46 @@ function runMarmoUI()
 		$("h2").remove();
 		//Change "detailed <br> test results" to something better
 		$("th:contains('detailed')").html("Details");
+
+
+		//Check if there are any untested submissions
+		$("td:contains('tested yet')").each(function(index, cell){
+			checkReload($(cell), "", window.location);
+		});
+
+		//Add the click events for the submission popups
+		var submit = $("a:contains('Submit')").click(function(event){
+			//Prevent redirection
+			event.preventDefault();
+			//Prevent closing
+			event.stopPropagation();
+			//The project PK number
+			var projectPK = $(this).attr("href").match("projectPK=([0-9]+)")[1];
+			//Reset popup html
+			var popup = $(".submission-popup").html("");
+			//Add Close, Project, Submissions and Deadline
+			popup.append("<a id='submission-close' href='#' onclick='$(\"#submission-box\").hide();return false;'>Close</a>");
+			popup.append("<p>Due: " + $("p:contains('Deadline')").html().replace("<b>Deadline:</b>", "").trim() + "</p>");
+			//Add the submission form
+			popup.append("<form target='sumbission-loader' enctype='multipart/form-data' action='/action/SubmitProjectViaWeb' method='POST'>" +
+			"<input type='hidden' name='projectPK' value='" + projectPK + "'>" +
+			"<input type='hidden' name='submitClientTool' value='web'>" +
+			"<input type='file' name='file' size='20'></form>" + 
+			"<div class='submit-button'><p><a onclick='$(\"form\").submit();'>Submit</a></p></div>");
+			//Show the popup box
+			$("#submission-box").show();
+		});
+		
+		//Add the submission box
+		$("body").append("<div id='submission-box'><div class='submission-bg'></div><div class='submission-wrapper'><div class='submission-cell'><div class='submission-popup'></div></div></div></div>");
+		$("#submission-box").hide();
+		//Event for closing the submission popup
+		$(".submission-bg").click(function(event){ $("#submission-box").hide(); });
+		$(document).keydown(function(e){ if(e.keyCode == 27){ $("#submission-box").hide(); }});
+
+		//Add the iframe for submission
+		$("body").append("<iframe id='sumbission-loader' name='sumbission-loader' style='display:none;'></iframe>");
+		$("#sumbission-loader").load(function(){ document.location.reload(true); });
 		//Add highlight to table rows
 		addTableHighlight();
 	}
@@ -401,15 +473,18 @@ function runMarmoUI()
 		addTableHighlight();
 		//Release test
 		var releaseTestElement = $("h3").has("a").eq(0);
-		//Change the release test link to a button
+		//Change the release test link to a button that actually release tests it with a popup confirm
 		if(releaseTestElement.length)
 		{
 			var link = releaseTestElement.find("a").attr("href");
+			var submissionPK = releaseTestElement.find("a").attr("href").match("submissionPK=([0-9]+)")[1];
 			releaseTestElement.replaceWith(
-				"<div class='submit-button' style='width:10em'><p>" +
-				"<a href='" + link + "' onclick='return confirm(\"Are you sure you want to release test this?\");'>" +
+				// <input type='submit' value='OK'>
+				"<form method='POST' action='/action/RequestReleaseTest'><div class='submit-button' style='width:10em'><p>" +
+				"<input type='hidden' name='submissionPK' value='" + submissionPK + "'>" +
+				"<a href='" + link + "' onclick='if(confirm(\"Are you sure you want to release test this?\")){$(\"form\").submit();} return false;'>" +
 				"Release Test" +
-				"</a></p><div>");
+				"</a></p><div></form>");
 		}
 		//Release tokens
 		$("ul").eq(0).addClass("release-tokens");
@@ -465,8 +540,9 @@ function runMarmoUI()
 			$("table.form").eq(0).replaceWith("<p><input type='file' name='file' size='40'></p><p><input type='submit' value='Submit'></p>");
 		break;
 		case PAGE.CONFIRM_RELEASE.value:
-			//Completely bypass this page and clicks the button for the user
+			//Completely bypass this page and clicks the button for the user (This page shouldn't occur anyways)
 			//There will be a confirmation popup in the previous page
+			$("body").append("<div style='position:fixed;left:0;top:0;height:100%;width:100%;background:#fff;z-index:99999;text-align:center;font-size:3em;color:#000;'>Please wait patiently while we submit this for you</div>");
 			$("input[type='submit']").click();
 		break;
 		case PAGE.ERROR.value:
