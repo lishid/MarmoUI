@@ -1,2 +1,0 @@
-CurrentVersion: 1.1
-UpdateDescription: Added a bunch of auto-refresh features and a bunch of UI improvements
