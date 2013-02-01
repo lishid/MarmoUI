@@ -175,6 +175,30 @@ div.footer a:hover {
 	color: #ff8700;
 }
 
+.notifier-update {
+	background: #fc3;
+	text-align: center;
+}
+
+.notifier-text {
+	line-height: 3em;
+	display: block;
+}
+
+.notifier-update a, .notifier-update a:visited {
+	color: #022d49;
+	font-weight: bold;
+}
+
+.notifier-close {
+	position: absolute;
+	top: 0;
+	right: 0.5em;
+	font-size: 2.0em;
+	color: #000;
+	text-decoration: none;
+}
+
 ul.my-courses, ul.all-courses {
 	margin: 0 0 0 5%;
 	list-style: none;
