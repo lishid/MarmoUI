@@ -1,0 +1,11 @@
+@font-face { font-family: 'Droid Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Sans'), local('DroidSans'), url(data:application/font-woff;base64,XXXXXXXXXXXXXXXXXXXXX) format('woff');
+}
+@font-face {
+  font-family: 'Lobster';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lobster'), url(data:application/font-woff;base64,XXXXXXXXXXXXXXXXXXXXX) format('woff');
+}
