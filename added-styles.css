@@ -10,32 +10,31 @@
 
 /* Style for Marmo UI written by Erica Xu (www.ericaxu.com) and Shida Li (www.lishid.com) */
 
-body {
+body, h1, h2, h3 {
 	font-family: 'Droid Sans', helvetica, arial, sans-serif;
+}
+
+body {
 	color: #EEEEEE;
 	background: #022d49;
 	margin: 0;
 }
 
-h1 {
-	font-family: 'Droid Sans', helvetica, arial, sans-serif;
-	font-size: 1.7em;
-	font-weight: normal;
+h1, h2, h3 {
 	margin: 1em 0 0.5em 7.5%;
+	font-weight: normal;
+}
+
+h1 {
+	font-size: 1.7em;
 }
 
 h2 {
-	font-family: 'Droid Sans', helvetica, arial, sans-serif;
 	font-size: 1.5em;
-	font-weight: normal;
-	margin: 1em 0 0.5em 7.5%;
 }
 
 h3 {
-	font-family: 'Droid Sans', helvetica, arial, sans-serif;
 	font-size: 1.3em;
-	font-weight: normal;
-	margin: 1em 0 0.5em 7.5%;
 	color: #EEEEEE;
 }
 
@@ -554,10 +553,4 @@ table.codetable td.linenumber {
 	background-color:#f5faff;
 	color:#003399; 
 	padding:7px;
-}
-.notemessage {
-	/*border:1px solid #ddcef2;
-	background-color:#faf5ff;
-	color:#993399; 
-	padding:10px;*/
 }
