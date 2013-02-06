@@ -420,7 +420,8 @@ function runMarmoUI()
 				if(tokens < 3)
 				{
 					//First release token
-					var tmp = requestResult.match(/\<li\>[a-zA-Z0-9 ,\:]+\<br\>/)[0];
+					var tokens = requestResult.match(/\<li\>[a-zA-Z0-9 ,\:]+\<br\>/g);
+					var tmp = tokens[tokens.length - 1];
 					//Format date
 					tmp = (new Date()).getFullYear() + " " + tmp.split(",")[1].match(/[a-zA-Z0-9 ,\:]+/)[0].trim().replace(" at ", " ");
 					//Calculate time difference
