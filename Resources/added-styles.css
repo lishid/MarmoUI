@@ -226,11 +226,6 @@ table {
 	font-size: 1em;
 }
 
-table.submissions, table.stacktrace {
-	width: 85%;
-	margin: 2em auto 0 auto;
-}
-
 form[name='submitform'] {
 	background: #ffcc33;
 	color: #111111;
