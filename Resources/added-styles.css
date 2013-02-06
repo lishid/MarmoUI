@@ -123,20 +123,19 @@ div.logout:hover, div.submit-button:hover {
 
 div.logout a {
 	font-family: inherit !important;
-	font-weight: normal;
-	color: #03426A !important;
 	text-decoration: none !important;
+	color: #03426A !important;
 }
 
-div.submit-button a {
+div.submit-button a, div.logout a {
 	font-family: inherit;
-	font-weight: normal;
-	color: #111;
 	text-decoration: none;
-}
-
-div.submit-button {
-	margin: 1.5em 0 0 0;
+	color: #111;
+	font-weight: normal;
+	text-align: center;
+	display: block;
+	padding: .2em .5em;
+	margin: -.2em -.5em;
 }
 
 div.breadcrumb p.nav {
@@ -248,9 +247,9 @@ form[name='submitform'] input[type='submit'] {
 	border: none;
 	cursor: pointer;
 	-webkit-transition: all .3s ease-in-out;
-    -moz-transition: all .3s ease-in-out;
-    -o-transition: all .3s ease-in-out;
-    transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	-o-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
 }
 
 form[name='submitform'] input[type='submit']:hover {
@@ -267,17 +266,30 @@ div.submission-bg {
 	left: 0;
 }
 
+div.submission-wrapper {
+	display: table;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+div.submission-cell {
+	display: table-cell;
+	vertical-align: middle;
+}
+
 div.submission-popup {
 	background-color:#fc3;
 	color: #111;
 	display: block;
 	border: none;
-	position: fixed;
 	text-align: left;
-	width: 50%;
-	left: 25%;
-	top: 30%;
 	padding: 1.5em;
+	z-index: 9999;
+	width: 50%;
+	margin: 0 25%;
 }
 
 div.submission-popup a:link, div.submission-popup a:visited {
@@ -301,7 +313,7 @@ a#submission-close {
 	margin: 0;
 	width: 50%;
 	display: inline-block;
-	position: inherit;
+	position: fixed;
 	text-align: right;
 	color: #111;
 	text-decoration: underline;
@@ -357,6 +369,10 @@ td {
 	padding: 0.5em;
 	margin: 0;
 	border: none;
+}
+
+td a{
+	display: block;
 }
 
 th.description, td.description {
