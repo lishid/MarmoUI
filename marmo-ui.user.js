@@ -320,6 +320,13 @@ function runMarmoUI()
 		//Redirect logout to the homepage since logout doesn't actually logs you out
 		$("div.logout a").attr("href", "/");
 
+		//Fix tables not having a proper <p> tag
+		$("table").each(function(index, value)
+		{
+			if(typeof value.parentNode === "undefined" || value.parentNode.nodeName != "P")
+				$(value).wrap("<p></p>");
+		});
+
 		//Load the updater - This will only show if the updater loads and is of a different version
 		$("head").append("<link href='" + update_location + "' type='text/css' rel='stylesheet'/>");
 		$("body").prepend("<div style='display:none;' class='notifier-update'>" +
