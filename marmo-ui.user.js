@@ -129,15 +129,20 @@ function runMarmoUI()
 			var element = $(this);
 			var steps = 75;
 			var step = 0;
+			//Clear the previous highlight
 			if (element.highlight) window.clearInterval(element.highlight);
+			//Create a repeating task
 			element.highlight = window.setInterval(function()
 			{
+				//Set the backgroundColor's alpha from 1 to 0
 				element.css("backgroundColor", "rgba(255, 255, 153," + Math.pow(1 - (step / steps), 4) + ")");
 				step++;
+				//Finished, clear color and quit
 				if (step > steps)
 				{
 					element.css("backgroundColor", "");
 					window.clearInterval(element.highlight);
+					delete element.highlight;
 				}
 			}, 20);
 		});
@@ -200,26 +205,36 @@ function runMarmoUI()
 	{
 		//Add some CSS for the arrows to be shown - This will add the up arrow and down arrow
 		$("head").append($("<style type='text/css'></style>").html(".sort_asc:after{content:' \\2191';}.sort_desc:after{content:' \\2193';}"));
-		$("table tr th").wrapInner("<span title='Sort by this column' style='cursor:pointer;display:block;' />").each(function(){
-			var table = $("table");
+		var table = $("table");
+		$("table tr th").wrapInner("<span title='Sort by this column' style='cursor:pointer;display:block;' />").each(function()
+		{
 			var th = $(this);
 			var thIndex = th.index();
 			var inverse = false;
-			th.click(function(){
+			th.click(function()
+			{
 				th.siblings().find("span").removeClass("sort_asc").removeClass("sort_desc");
 				th.find("span").removeClass("sort_asc").removeClass("sort_desc").addClass(inverse?"sort_desc":"sort_asc");
 				table.find("td")
 				.filter(function(){ return $(this).index() === thIndex; })
-				.sortElements(function(a, b){
+				.sortElements(function(a, b)
+				{
 					if($.text([a]) == $.text([b]))
 						return 0;
 					return ($.text([a]) > $.text([b])) ? (inverse ? -1 : 1) : (inverse ? 1 : -1);
-				}, function(){
+				}, function()
+				{
 					return this.parentNode; //The tr is what we want to move
 				});
 				inverse = !inverse;
 			});
 		});
+	}
+
+	//Trims the .text() of all jquery elements
+	function trimInner(elements)
+	{
+		elements.each(function(index, value){$(value).text($.trim($(value).text()));});
 	}
 
 	//Load a page asynchronously and call "callback" when done
@@ -233,9 +248,18 @@ function runMarmoUI()
 		}
 		$.ajax({ url: requestURL, cache: false })
 		//Done then callback
-		.done(function(html){ callback(element, html, requestURL); })
+		.done(function(html)
+		{
+			callback(element, html, requestURL);
+		})
 		//Failed then retry
-		.fail(function(){ window.setTimeout(function() { asyncLoadPage(element, requestURL, callback, retry - 1); }, 5000); });
+		.fail(function()
+		{
+			window.setTimeout(function() 
+				{
+					asyncLoadPage(element, requestURL, callback, retry - 1);
+				}, 5000);
+		});
 	}
 
 	//Queue an asynchronous reload, should contain a <span class='update'></span> for updating the countdown
@@ -248,7 +272,10 @@ function runMarmoUI()
 		}
 		else
 		{
-			window.setTimeout(function() { queueAsyncReload(element, requestURL, callback, countdown - 1); }, 1000);
+			window.setTimeout(function() 
+				{
+					queueAsyncReload(element, requestURL, callback, countdown - 1);
+				}, 1000);
 		}
 	}
 
@@ -267,12 +294,16 @@ function runMarmoUI()
 
 		//Add navigation CSS
 		var nav = $("div.breadcrumb p:not(:contains('Logout'))").addClass("nav");
-		$.each(nav.find("a"), function(index, value){$(value).text($.trim($(value).text()));});
+		//Trim all links since some of them has spaces at the end
+		trimInner(nav.find("a"));
 		var navText = nav.html();
 		if(typeof navText != "undefined" && current_page != PAGE.LOGIN.value)
 		{
+			//Remove the ugly greeting if applicable
 			navText = navText.substring(navText.indexOf(":") + 1);
+			//Add in a link to go to the homepage
 			navText = "<a href='/'>Marmoset</a> | " + navText;
+			//Change the breadcrumb separator
 			navText = navText.replace(/\|/g, "&rsaquo;");
 			nav.html(navText);
 		}
@@ -283,13 +314,13 @@ function runMarmoUI()
 		//Remove inconsistent (and useless) greeting message
 		$("p:contains('Welcome')").remove();
 
-		//Remove current time
+		//Remove current time and replace by an actual footer
 		$(".footer").html("MarmoUI - Created by <a href='http://www.lishid.com' target='_blank'>Shida Li</a> and <a href='http://www.ericaxu.com' target='_blank'>Erica Xu</a>.");
 
-		//Redirect logout
+		//Redirect logout to the homepage since logout doesn't actually logs you out
 		$("div.logout a").attr("href", "/");
 
-		//Load the updater
+		//Load the updater - This will only show if the updater loads and is of a different version
 		$("head").append("<link href='" + update_location + "' type='text/css' rel='stylesheet'/>");
 		$("body").prepend("<div style='display:none;' class='notifier-update'>" +
 			"<a class='notifier-text' href='" + update_download + "'>Update available: <span class='notifier-text-inner'></span></a>" +
@@ -344,7 +375,8 @@ function runMarmoUI()
 				var scores = firstLine.find("td:contains('/')");
 				var anchor = tableCell.find("a");
 				//Should match Public test and Release test
-				scores.each(function(index, item) {
+				scores.each(function(index, item)
+				{
 					//Match all int/int
 					var matches = $(item).html().match(/(\d+)\s\/\s(\d+)/);
 					//Put an & sign in between
@@ -393,6 +425,7 @@ function runMarmoUI()
 					tmp = (new Date()).getFullYear() + " " + tmp.split(",")[1].match(/[a-zA-Z0-9 ,\:]+/)[0].trim().replace(" at ", " ");
 					//Calculate time difference
 					var nextToken = Date.parse(tmp) - Date.now();
+					//Add in the text for the next token time
 					tokenText += " (renew in " + Math.floor(nextToken / 3600000) + ":" + Math.floor((nextToken % 3600000) / 60000) + ")";
 				}
 				//Show the tokens
@@ -403,7 +436,6 @@ function runMarmoUI()
 				//Set to 3 tokens if we can't find the token string
 				tableCell.html("3");
 			}
-			//TODO Find the time for each token and try to parse the time
 		}
 
 		//Remove useless breadcrumb
@@ -426,12 +458,14 @@ function runMarmoUI()
 		$("tr td:nth-child(3)").after("<td>Loading...</td>");
 
 		//Load the tokens and submission results asychronously via ajax
-		$("tr").each(function(index, row){
+		$("tr").each(function(index, row)
+		{
 			if(index == 0) return;
 			var link = $(row).find("a:contains('view')").attr("href");
 
 			//Optimize this, only open the page once so that we don't waste mroe time and resources to load the page twice
-			asyncLoadPage($(row), link, function(row, requestResult, requestURL){
+			asyncLoadPage($(row), link, function(row, requestResult, requestURL)
+			{
 				loadSubmission(row.find("td:eq(2)"), requestResult, requestURL);
 				loadTokensFromSubmission(row.find("td:eq(3)"), requestResult, requestURL);
 			}, -1);
@@ -441,7 +475,8 @@ function runMarmoUI()
 		});
 
 		//Add the click events for the submission popups
-		var submit = $("a:contains('submit')").click(function(event){
+		var submit = $("a:contains('submit')").click(function(event)
+		{
 			//Prevent redirection
 			event.preventDefault();
 			//Prevent closing
@@ -465,7 +500,7 @@ function runMarmoUI()
 			"<div class='submit-button'><p><a onclick='$(\"form\").submit();'>Submit</a></p></div>");
 
 			//Fix the anchor having an extra space at the end
-			$("h2 a").each(function (index, row) {$(row).text($(row).text().trim());});
+			trimInner($("h2 a"));
 			//Show the popup box
 			$("#submission-box").show();
 		});
@@ -475,11 +510,12 @@ function runMarmoUI()
 		$("#submission-box").hide();
 		//Event for closing the submission popup
 		$(".submission-bg").click(function(event){ $("#submission-box").hide(); });
+		//Hook the escape key
 		$(document).keydown(function(e){ if(e.keyCode == 27){ $("#submission-box").hide(); }});
 
-		//Add the iframe for submission
+		//Add an iframe for submitting the solution to, this will make sure the page doesn't get redirected
 		$("body").append("<iframe id='sumbission-loader' name='sumbission-loader' style='display:none;'></iframe>");
-		$("#sumbission-loader").load(function(){ document.location.reload(true); });
+		$("#sumbission-loader").load(function(){ if($("#sumbission-loader")[0].contentWindow.location.href.indexOf("blank") === -1) document.location.reload(true); });
 		//Add highlight to table rows
 		addTableHighlight();
 		//Add sorting to table
@@ -488,7 +524,7 @@ function runMarmoUI()
 
 	function applyChangesSubmissionList()
 	{
-		//When async callbacks, refresh the page if can't find not tested yet
+		//When async callbacks, refresh the page if can't find "not tested yet"
 		function checkReload(tableCell, requestResult, requestURL)
 		{
 			//Highlight the cell since we just updated it
@@ -507,12 +543,14 @@ function runMarmoUI()
 			}
 			else
 			{
+				//No more untested solutions, reload to see results
 				document.location.reload(true);
 			}
 		}
 
 		//Add CSS class
 		$("table").addClass("submissions");
+		//Change the submit link to a button
 		var submitLink = $("h3").eq(0).html();
 		$("h3").eq(0).replaceWith("<div class='submit-button'><p>" + submitLink + "</p></div>");
 		
@@ -520,17 +558,18 @@ function runMarmoUI()
 		$("h1").remove();
 		//Remove "Submissions"
 		$("h2").remove();
-		//Change "detailed <br> test results" to something better
+		//Change "detailed <br> test results" to something shorter
 		$("th:contains('detailed')").html("Details");
 
-
 		//Check if there are any untested submissions
-		$("td:contains('tested yet')").each(function(index, cell){
+		$("td:contains('tested yet')").each(function(index, cell)
+		{
 			checkReload($(cell), "", window.location);
 		});
 
 		//Add the click events for the submission popups
-		var submit = $("a:contains('Submit')").click(function(event){
+		var submit = $("a:contains('Submit')").click(function(event)
+		{
 			//Prevent redirection
 			event.preventDefault();
 			//Prevent closing
@@ -557,11 +596,12 @@ function runMarmoUI()
 		$("#submission-box").hide();
 		//Event for closing the submission popup
 		$(".submission-bg").click(function(event){ $("#submission-box").hide(); });
+		//Hook the escape key
 		$(document).keydown(function(e){ if(e.keyCode == 27){ $("#submission-box").hide(); }});
 
-		//Add the iframe for submission
+		//Add an iframe for submitting the solution to, this will make sure the page doesn't get redirected
 		$("body").append("<iframe id='sumbission-loader' name='sumbission-loader' style='display:none;'></iframe>");
-		$("#sumbission-loader").load(function(){ document.location.reload(true); });
+		$("#sumbission-loader").load(function(){ if($("#sumbission-loader")[0].contentWindow.location.href.indexOf("blank") === -1) document.location.reload(true); });
 		//Add highlight to table rows
 		addTableHighlight();
 		//Add sorting to table
@@ -610,9 +650,11 @@ function runMarmoUI()
 		$("ul").eq(0).addClass("release-tokens");
 	}
 
-	//Load page
+	//Start of actual executing code
+
+	//Find out which page we're on
 	var path = $(location).attr("href");
-	var current_page = PAGE.LOGIN.value; //Default is LOGIN page
+	var current_page = PAGE.LOGIN.value; //By default, we'll assume it's the login page
 	//Check which page we're on
 	for(var page in PAGE)
 	{
@@ -656,7 +698,7 @@ function runMarmoUI()
 			//Change the weirdly written title
 			$("h1").text("Web Submission");
 
-			//Replace the form with something better looking
+			//Replace the form's table with something better looking
 			$("table.form").eq(0).replaceWith("<p><input type='file' name='file' size='40'></p><p><input type='submit' value='Submit'></p>");
 		break;
 		case PAGE.CONFIRM_RELEASE.value:
@@ -673,9 +715,11 @@ function runMarmoUI()
 			//Add something more constructive inside the title
 			$("h1").text("Oops, Marmoset has encountered an error!");
 			//jQuery for the hide/show effect
-			$("table tr th").click(function() {
+			$("table tr th").click(function()
+			{
 				$("table tr").has("td").toggle();
-			}).append(" (Click for details)").css("cursor", "pointer");
+			})
+			.append(" (Click for details)").css("cursor", "pointer");
 			$("table tr").has("td").hide();
 			//Remove the logout button as it's completely useless
 			$(".logout").remove();
