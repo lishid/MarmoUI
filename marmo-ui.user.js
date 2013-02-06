@@ -112,7 +112,7 @@ function runMarmoUI()
 	var reload_time = 5; // Time to wait until reload, in seconds
 	var update_location = "https://raw.github.com/lishd/MarmoUI/master/updater.css"; //latest version inside a CSS
 	var update_download = "http://userscripts.org/scripts/source/157749.user.js"; //Download page
-	var current_version = "marmo_ui_1_1"; //Current version to check updates
+	var current_version = "marmo_ui_1_2"; //Current version to check updates
 	//Embedded data in base64 form
 	var EMBED_DATA =
 	{

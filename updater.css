@@ -1,5 +1,5 @@
-body:not(.marmo_ui_1_1) .notifier-update
+body:not(.marmo_ui_1_2) .notifier-update
 { display : block !important; }
 
 .notifier-text-inner::before
-{ content: 'v1.1 - Added a bunch of auto-refresh features, and more UI improvements'; }
+{ content: 'v1.2 - Critical bugfix for Firefox. Tables can now be sorted. Shows the token regeneration time.'; }
