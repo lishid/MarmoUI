@@ -21,7 +21,7 @@ body {
 }
 
 h1, h2, h3 {
-	margin: 1em 0 0.5em 7.5%;
+	margin: 1em 0 0.5em 0;
 	font-weight: normal;
 }
 
@@ -38,7 +38,7 @@ h3 {
 	color: #EEEEEE;
 }
 
-p {
+.wrapper {
 	margin: 1em 7.5%;
 }
 
@@ -75,8 +75,7 @@ div.header p {
 
 div.breadcrumb {
 	background: inherit;
-	width: 85%;
-	margin: 0 6% 0 7.5%;
+	margin: 0;
 	padding: 0;
 }
 
@@ -137,7 +136,7 @@ div.submit-button a {
 }
 
 div.submit-button {
-	margin: 1.5em 0 0 7.5%;
+	margin: 1.5em 0 0 0;
 }
 
 div.breadcrumb p.nav {
@@ -199,7 +198,6 @@ div.footer a:hover {
 }
 
 ul.my-courses, ul.all-courses {
-	margin: 0 0 0 5%;
 	list-style: none;
 	font-size: 1.1em;
 }
@@ -209,12 +207,7 @@ ul.my-courses li, ul.all-courses li {
 }
 
 ul.release-tokens {
-	margin: 0 0 0 5%;
 	list-style: none;
-}
-
-ul.release-tokens li {
-	margin: 0 0 0 2%;
 }
 
 table {
