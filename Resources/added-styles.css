@@ -311,10 +311,8 @@ div.submission-popup form {
 
 a#submission-close {
 	margin: 0;
-	width: 50%;
-	display: inline-block;
-	position: fixed;
-	text-align: right;
+	right: 24%;
+	position: absolute;
 	color: #111;
 	text-decoration: underline;
 }
