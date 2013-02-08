@@ -135,28 +135,46 @@ function runMarmoUI()
 	};
 
 	//Add a jquery highlight function
+	//Arguments: color, finalColor, finalOpacity
 	jQuery.fn.highlight = function()
 	{
+		var color = arguments[0] || [255, 255, 153];
+		var finalColor = arguments[1] || false;
+		var opacity = arguments[2] || 1;
 		$(this).each(function()
 		{
 			var element = $(this);
 			var steps = 75;
 			var step = 0;
-			//Clear the previous highlight
+			var power = 4;
+			//Clear the previous highlight if possible
 			if (element.highlight) window.clearInterval(element.highlight);
 			//Create a repeating task
 			element.highlight = window.setInterval(function()
 			{
-				//Set the backgroundColor's alpha from 1 to 0
-				element.css("backgroundColor", "rgba(255, 255, 153," + Math.pow(1 - (step / steps), 4) + ")");
-				step++;
-				//Finished, clear color and quit
-				if (step > steps)
+				if(step < steps)
 				{
-					element.css("backgroundColor", "");
+					//Set the backgroundColor's alpha from 1 to 0
+					var newOpacity = Math.pow(1 - (step / steps), power);
+					//Optimization: Don't care about the small amount left, just skip the rest of the animation
+					if(newOpacity < 0.05) step = steps;
+					element.css("backgroundColor", "rgba(" + color[0] + ", " + color[1] + ", " + color[2] + "," + newOpacity + ")");
+				}
+				//Fade in to finalColor
+				else if(step < steps * 2 && finalColor)
+				{
+					//Set the backgroundColor's alpha from 0 to opacity
+					element.css("backgroundColor", "rgba(" + finalColor[0] + ", " + finalColor[1] + ", " + finalColor[2] + "," + 
+						(opacity * Math.pow(step / steps - 1, 1 / power)) + ")");
+				}
+				//Finished, clear color and quit
+				else
+				{
+					if(!finalColor) element.css("backgroundColor", "");
 					window.clearInterval(element.highlight);
 					delete element.highlight;
 				}
+				step++;
 			}, 20);
 		});
 	};
@@ -231,6 +249,11 @@ function runMarmoUI()
 				inverse = !inverse;
 			});
 		});
+	}
+
+	function parseMarmosetDate(date)
+	{
+		return Date.parse((new Date()).getFullYear() + " " + date.split(",")[1].match(/[a-zA-Z0-9 \:]+/)[0].trim().replace(" at ", " "));
 	}
 
 	//Trims the .text() of all jquery elements
@@ -379,6 +402,7 @@ function runMarmoUI()
 
 			//Find Link to the first submission and put an anchor linking to it
 			var link = firstLine.find("a:contains('view')").attr("href");
+			if(typeof link == "undefined" || !link) link = requestURL;
 			tableCell.html("<a href='" + link + "'></a>");
 			//Check if latest solution is untested
 			var untested = firstLine.find("td:contains('tested yet')");
@@ -395,6 +419,7 @@ function runMarmoUI()
 			else if(uncompiled.length > 0)
 			{
 				tableCell.find("a").html("Compilation failed");
+				tableCell.highlight(false, [255, 0, 0], 0.2);
 				return;
 			}
 			else
@@ -402,6 +427,7 @@ function runMarmoUI()
 				//Get the scores
 				var scores = firstLine.find("td:contains('/')");
 				var anchor = tableCell.find("a");
+				var succeedAll = true;
 				//Should match Public test and Release test
 				scores.each(function(index, item)
 				{
@@ -410,7 +436,16 @@ function runMarmoUI()
 					//Put an & sign in between
 					if(anchor.html() != "") anchor.append(" & ");
 					anchor.append(matches[1] + " / " + matches[2]);
+					if(matches[1] != matches[2]) succeedAll = false;
 				});
+				if(succeedAll)
+				{
+					tableCell.highlight(false, [175, 255, 30], 0.3);
+				}
+				else
+				{
+					tableCell.highlight(false, [255, 0, 0], 0.2);
+				}
 			}
 		}
 
@@ -450,10 +485,8 @@ function runMarmoUI()
 					//First release token
 					var tokens = requestResult.match(/\<li\>[a-zA-Z0-9 ,\:]+\<br\>/g);
 					var tmp = tokens[tokens.length - 1];
-					//Format date
-					tmp = (new Date()).getFullYear() + " " + tmp.split(",")[1].match(/[a-zA-Z0-9 ,\:]+/)[0].trim().replace(" at ", " ");
 					//Calculate time difference
-					var nextToken = Date.parse(tmp) - Date.now();
+					var nextToken = parseMarmosetDate(tmp) - Date.now();
 					//Add in the text for the next token time
 					tokenText += " (renew in " + Math.floor(nextToken / 3600000) + "h " + Math.floor((nextToken % 3600000) / 60000) + "m)";
 				}
@@ -660,6 +693,16 @@ function runMarmoUI()
 		}
 		//Release tokens
 		$("ul").eq(0).addClass("release-tokens");
+
+		//First release token
+		$("ul.release-tokens li").each(function()
+		{
+			var tmp = $(this).html().replace("<br>", "");
+			//Calculate time difference
+			var nextToken = parseMarmosetDate(tmp) - Date.now();
+			//Add in the text for the next token time
+			$(this).html(tmp + " (in " + Math.floor(nextToken / 3600000) + "h " + Math.floor((nextToken % 3600000) / 60000) + "m)");
+		});
 	}
 
 	//Start of actual executing code
