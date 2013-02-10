@@ -327,7 +327,7 @@ function runMarmoUI()
 	//Load a page asynchronously and call "callback" when done
 	function asyncLoadPage(element, requestURL, callback, retry)
 	{
-		if(retry < 0) retry = 3;
+		if(retry < 0) retry = 10;
 		if(retry == 0)
 		{
 			element.html("Failed to load");
@@ -345,7 +345,8 @@ function runMarmoUI()
 			window.setTimeout(function() 
 			{
 				asyncLoadPage(element, requestURL, callback, retry - 1);
-			}, 5000);
+			}, 1000);
+			element.highlight();
 		});
 	}
 
