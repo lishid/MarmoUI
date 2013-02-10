@@ -387,6 +387,9 @@ function runMarmoUI()
 		//Load some nice fonts
 		$("head").append($("<style></style>").attr("type", "text/css").html("@font-face{font-family:'Droid Sans';font-style:normal;font-weight:400;src:local('Droid Sans'),local('DroidSans'),url(" + EMBED_DATA.Font_DroidSans + ") format('woff')}@font-face{font-family:'Lobster';font-style:normal;font-weight:400;src:local('Lobster'),url(" + EMBED_DATA.Font_Lobster + ") format('woff')}"));
 
+		//Add the loading image
+		$("head").append($("<style></style>").attr("type", "text/css").html(".loading{background:url(" + EMBED_DATA.Loading + ") no-repeat center;}"));
+
 		//Wrap contents inside a wrapper for centering
 		$("body").wrapInner("<div class='wrapper'></div>");
 
@@ -564,11 +567,11 @@ function runMarmoUI()
 
 		//Add the submission column
 		$("tr th:nth-child(2)").after("<th>Last submission</th>");
-		$("tr td:nth-child(2)").after("<td>Loading...</td>");
+		$("tr td:nth-child(2)").after("<td><div class='loading'>&nbsp;</div></td>");
 
 		//Add the tokens column
 		$("tr th:nth-child(3)").after("<th>Tokens</th>");
-		$("tr td:nth-child(3)").after("<td>Loading...</td>");
+		$("tr td:nth-child(3)").after("<td><div class='loading'>&nbsp;</div></td>");
 
 		//Load the tokens and submission results asychronously via ajax
 		$("tr").each(function(index, row)
