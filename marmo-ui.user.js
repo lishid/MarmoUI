@@ -23,7 +23,7 @@
 // @name				MarmoUI
 // @description			Marmoset Improved! Better UI and functionality
 // @author				Erica Xu (www.ericaxu.com) and Shida Li (www.lishid.com)
-// @version				1.3
+// @version				1.4
 // @include				https://marmoset.student.cs.uwaterloo.ca*
 // ==/UserScript==
 //
