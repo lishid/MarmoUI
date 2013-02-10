@@ -299,14 +299,15 @@ function runMarmoUI()
 		}
 
 		//Match all 0/0 formats
-		var matches = text.match(/(\d+)\s\/\s(\d+)/);
+		var matches = text.match(/(\d+)\s\/\s(\d+)/g);
 		if(matches != null)
 		{
 			var matched = true;
 			//Check if any of them are not full scores
-			for(var i = 0; i < matches.length; i += 3)
+			for(var i = 0; i < matches.length; i++)
 			{
-				if(matches[i + 1] != matches[i + 2])
+				var match = matches[i].match(/(\d+)\s\/\s(\d+)/);
+				if(match[1] != match[2])
 				{
 					matched = false;
 				}
@@ -676,7 +677,7 @@ function runMarmoUI()
 			if(cell.length == 0) return;
 
 			//If uncompiled, then we want to make it into 2 cells instead of 3
-			if(cell.html().indexOf("not compile") != -1)
+			if(cell.html().indexOf("not compile") != -1 && cell.attr("colspan") > 1)
 			{
 				cell.attr("colspan", "2").after("<td></td>");
 			}
