@@ -440,7 +440,7 @@ function runMarmoUI()
 		//Load the updater - This will only show if the updater loads and is of a different version
 		$("head").append("<link href='" + update_location + "' type='text/css' rel='stylesheet'/>");
 		$("body").prepend("<div style='display:none;' class='notifier-update'>" +
-			"<a class='notifier-text' href='" + update_download + "'>Update available: <span class='notifier-text-inner'></span></a>" +
+			"<a class='notifier-text' href='" + update_download + "' target='_blank'>Update available: <span class='notifier-text-inner'></span></a>" +
 			"<a class='notifier-close' href='#' onclick='$(\".notifier-update\").fadeOut().queue(function(){$(this).remove();}); return false;'>x</a></div>");
 		$("body").addClass(current_version);
 
