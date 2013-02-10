@@ -1,5 +1,5 @@
-body:not(.marmo_ui_1_3) .notifier-update
+body:not(.marmo_ui_1_3_1) .notifier-update
 { display : block !important; }
 
 .notifier-text-inner::before
-{ content: 'v1.3 - Added color highlight on submission scores and passed/failed submissions.'; }
+{ content: 'v1.3.1 - Critical bugfix for v1.3 (Added color highlight on submission scores and passed/failed submissions)'; }

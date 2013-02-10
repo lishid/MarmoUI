@@ -23,7 +23,7 @@
 // @name				MarmoUI
 // @description			Marmoset Improved! Better UI and functionality
 // @author				Erica Xu (www.ericaxu.com) and Shida Li (www.lishid.com)
-// @version				1.4
+// @version				1.3.1
 // @include				https://marmoset.student.cs.uwaterloo.ca*
 // ==/UserScript==
 //
@@ -112,7 +112,7 @@ function runMarmoUI()
 	var reload_time = 5; // Time to wait until reload, in seconds
 	var update_location = "https://raw.github.com/lishd/MarmoUI/master/updater.css"; //latest version inside a CSS
 	var update_download = "http://userscripts.org/scripts/source/157749.user.js"; //Download page
-	var current_version = "marmo_ui_1_3"; //Current version to check updates
+	var current_version = "marmo_ui_1_3_1"; //Current version to check updates
 	//Embedded data in base64 form
 	var EMBED_DATA =
 	{
