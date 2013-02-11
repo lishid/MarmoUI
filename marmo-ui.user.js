@@ -23,7 +23,7 @@
 // @name				MarmoUI
 // @description			Marmoset Improved! Better UI and functionality
 // @author				Erica Xu (www.ericaxu.com) and Shida Li (www.lishid.com)
-// @version				1.3.1
+// @version				1.4
 // @include				https://marmoset.student.cs.uwaterloo.ca*
 // ==/UserScript==
 //
@@ -810,7 +810,7 @@ function runMarmoUI()
 			//Remove Logout button
 			$("div.logout").remove();
 			//Chang submit button
-			$("input[type='submit']").attr("value", "Use this account");
+			$("input[type='submit']").attr("value", "Use this account").attr("onclick", "$(this).attr('value', 'as')");
 			$("p:contains('please login as')").remove();
 		break;
 		case PAGE.COURSE_LIST.value:
