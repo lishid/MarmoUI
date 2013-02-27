@@ -139,6 +139,7 @@ function runMarmoUI()
 		ERROR: 				{value: 7, link: "action/SubmitProjectViaWeb"},
 		LOGIN_ERROR:		{value: 8, link: "authenticate/PerformLogin"}
 	};
+	var current_page = PAGE.LOGIN.value; //By default, we'll assume it's the login page
 
 	//Add a jquery highlight function
 	//Arguments: color, finalColor, finalOpacity
@@ -242,25 +243,60 @@ function runMarmoUI()
 		{
 			var th = $(this);
 			var thIndex = th.index();
+			//Asc or desc order
 			var inverse = false;
+			//False when we stopped sorting the list, used to reset sorting in case of need
+			var sort = false;
 			th.click(function()
 			{
-				th.siblings().find("span").removeClass("sort_asc").removeClass("sort_desc");
-				th.find("span").removeClass("sort_asc").removeClass("sort_desc").addClass(inverse?"sort_desc":"sort_asc");
-				table.find("td")
-				.filter(function(){ return $(this).index() === thIndex; })
-				.sortElements(function(a, b)
+				if(sort && !inverse)
 				{
-					if($.text([a]) == $.text([b]))
-						return 0;
-					return ($.text([a]) > $.text([b])) ? (inverse ? -1 : 1) : (inverse ? 1 : -1);
-				}, function()
+					//Don't sort and make sure the next page load doesn't sort
+					sort = false;
+					th.siblings().add(th).find("span").removeClass("sort_asc").removeClass("sort_desc");
+					localStorage.setItem(current_page.value + "_sort_inverse", "none");
+					return;
+				}
+				else
 				{
-					return this.parentNode; //The tr is what we want to move
-				});
-				inverse = !inverse;
+					//Sort and record the sorting in local storage
+					sort = true;
+					localStorage.setItem(current_page.value + "_sort", thIndex);
+					localStorage.setItem(current_page.value + "_sort_inverse", inverse ? "true" : "false");
+					console.log(localStorage.getItem(current_page.value + "_sort_inverse"));
+					th.siblings().find("span").removeClass("sort_asc").removeClass("sort_desc");
+					th.find("span").removeClass("sort_asc").removeClass("sort_desc").addClass(inverse?"sort_desc":"sort_asc");
+					table.find("td")
+					.filter(function(){ return $(this).index() === thIndex; })
+					.sortElements(function(a, b)
+					{
+						if($.text([a]) == $.text([b]))
+							return 0;
+						return ($.text([a]) > $.text([b])) ? (inverse ? -1 : 1) : (inverse ? 1 : -1);
+					}, function()
+					{
+						return this.parentNode; //The tr is what we want to move
+					});
+					inverse = !inverse;
+				}
 			});
 		});
+		
+		//Load previous sorting settings
+		if(localStorage.getItem(current_page.value + "_sort") != null)
+		{
+			var element = $("table tr th").eq(parseInt(localStorage.getItem(current_page.value + "_sort")));
+			var sort = localStorage.getItem(current_page.value + "_sort_inverse");
+			if(sort == "true")
+			{
+				element.click();
+				element.click();
+			}
+			else if (sort == "false")
+			{
+				element.click();
+			}
+		}
 	}
 
 	function parseMarmosetDate(date)
@@ -284,17 +320,17 @@ function runMarmoUI()
 			return;
 		}
 
-		//Red if it says did not compile , failed or error
-		if(text.indexOf("not compile") != -1 || text.indexOf("failed") != -1 || text.indexOf("error") != -1)
-		{
-			elements.highlight(false, red_tint, 0.25);
-			return;
-		}
-
 		//Green if it says passed
 		if(text.indexOf("passed") != -1)
 		{
 			elements.highlight(false, green_tint, 0.35);
+			return;
+		}
+
+		//Red if it says did not compile , failed or error
+		if(text.indexOf("not compile") != -1 || text.indexOf("failed") != -1 || text.indexOf("error") != -1 || text.indexOf("timeout") != -1)
+		{
+			elements.highlight(false, red_tint, 0.25);
 			return;
 		}
 
@@ -790,7 +826,6 @@ function runMarmoUI()
 
 	//Find out which page we're on
 	var path = $(location).attr("href");
-	var current_page = PAGE.LOGIN.value; //By default, we'll assume it's the login page
 	//Check which page we're on
 	for(var page in PAGE)
 	{
