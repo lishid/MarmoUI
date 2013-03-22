@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+
+  "name": "MarmoUI",
+  "description": "Marmoset Improved! Better UI and functionality",
+  "version": "1.3.1",
+  "icons": {
+    "16": "image/icon16.png",
+    "48": "image/icon48.png",
+    "128": "image/icon128.png" 
+  },
+  
+  "content_scripts": [
+    {
+      "matches": ["https://marmoset.student.cs.uwaterloo.ca/*"],
+      "js": ["script.js"]
+    }
+  ]
+}
