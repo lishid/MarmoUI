@@ -272,7 +272,16 @@ function runMarmoUI()
 					{
 						if($.text([a]) == $.text([b]))
 							return 0;
-						return ($.text([a]) > $.text([b])) ? (inverse ? -1 : 1) : (inverse ? 1 : -1);
+
+						a = $.text([a]);
+						b = $.text([b]);
+						
+						if(parseInt(a) && parseInt(b)) {
+							a = parseInt(a);
+							b = parseInt(b);
+						} 
+
+						return a > b ? (inverse ? -1 : 1) : (inverse ? 1 : -1);
 					}, function()
 					{
 						return this.parentNode; //The tr is what we want to move
