@@ -426,7 +426,32 @@ function runMarmoUI()
 
 		//Add an iframe for submitting the solution to, this will make sure the page doesn't get redirected
 		$("body").append("<iframe id='sumbission-loader' name='sumbission-loader' style='display:none;'></iframe>");
-		$("#sumbission-loader").load(function(){ if($("#sumbission-loader")[0].contentWindow.location.href.indexOf("blank") === -1) document.location.reload(true); });
+		$("form").data("retries", 0);
+		var retries =
+		$("#sumbission-loader").load(function(){
+			var href = "";
+			try {
+				href = $("#sumbission-loader")[0].contentWindow.location.href;
+			}
+			catch(err) {
+				var retries = $("form").data("retries");
+				if(retries < 5) {
+					$("form").submit();
+					$("form").data("retries", retries + 1);
+				}
+			}
+
+			if(href.indexOf("marmoset.student.cs.uwaterloo") === -1) {
+				var retries = $("form").data("retries");
+				if(retries < 5) {
+					$("form").submit();
+					$("form").data("retries", retries + 1);
+				}
+			}
+			else if($("#sumbission-loader")[0].contentWindow.location.href.indexOf("blank") === -1) {
+				document.location.reload(true);
+			}
+		});
 	}
 
 	function applyChangesAll(current_page)

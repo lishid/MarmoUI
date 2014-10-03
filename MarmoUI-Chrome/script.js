@@ -273,7 +273,16 @@ function runMarmoUI()
 					{
 						if($.text([a]) == $.text([b]))
 							return 0;
-						return ($.text([a]) > $.text([b])) ? (inverse ? -1 : 1) : (inverse ? 1 : -1);
+
+						a = $.text([a]);
+						b = $.text([b]);
+						
+						if(parseInt(a) && parseInt(b)) {
+							a = parseInt(a);
+							b = parseInt(b);
+						} 
+
+						return a > b ? (inverse ? -1 : 1) : (inverse ? 1 : -1);
 					}, function()
 					{
 						return this.parentNode; //The tr is what we want to move
@@ -418,7 +427,32 @@ function runMarmoUI()
 
 		//Add an iframe for submitting the solution to, this will make sure the page doesn't get redirected
 		$("body").append("<iframe id='sumbission-loader' name='sumbission-loader' style='display:none;'></iframe>");
-		$("#sumbission-loader").load(function(){ if($("#sumbission-loader")[0].contentWindow.location.href.indexOf("blank") === -1) document.location.reload(true); });
+		$("form").data("retries", 0);
+		var retries =
+		$("#sumbission-loader").load(function(){
+			var href = "";
+			try {
+				href = $("#sumbission-loader")[0].contentWindow.location.href;
+			}
+			catch(err) {
+				var retries = $("form").data("retries");
+				if(retries < 5) {
+					$("form").submit();
+					$("form").data("retries", retries + 1);
+				}
+			}
+
+			if(href.indexOf("marmoset.student.cs.uwaterloo") === -1) {
+				var retries = $("form").data("retries");
+				if(retries < 5) {
+					$("form").submit();
+					$("form").data("retries", retries + 1);
+				}
+			}
+			else if($("#sumbission-loader")[0].contentWindow.location.href.indexOf("blank") === -1) {
+				document.location.reload(true);
+			}
+		});
 	}
 
 	function applyChangesAll(current_page)
@@ -906,4 +940,4 @@ function runMarmoUI()
 	}
 }
 
-loadMarmoUI(runMarmoUI)
+loadMarmoUI(runMarmoUI);
