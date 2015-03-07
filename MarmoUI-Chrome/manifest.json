@@ -15,5 +15,11 @@
       "matches": ["https://marmoset.student.cs.uwaterloo.ca/*"],
       "js": ["script.js"]
     }
-  ]
+  ],
+
+  "background": {
+    "persistent": false,
+    "scripts": ["notifications.js"]
+  },
+  "permissions": ["notifications"]
 }
