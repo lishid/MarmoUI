@@ -2,8 +2,9 @@
 var activeNotifications = {};
 
 chrome.runtime.onMessage.addListener(function(request, sender) {
+	var opts = JSON.parse(localStorage["opts"]);
 
-	if (request.type == "notification") {
+	if (request.type == "notification" && opts.showNotifications.value) {
 
 		chrome.windows.get(sender.tab.windowId, function(win) {
 			// Don't show notification if user is still on marmoset

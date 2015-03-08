@@ -19,7 +19,12 @@
 
   "background": {
     "persistent": false,
-    "scripts": ["notifications.js"]
+    "scripts": ["notifications.js", "init.js"]
   },
-  "permissions": ["notifications"]
+  "permissions": ["notifications"],
+
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  }
 }
