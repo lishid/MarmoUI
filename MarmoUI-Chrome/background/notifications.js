@@ -5,19 +5,22 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 	var opts = JSON.parse(localStorage["opts"]);
 
 	if (request.type == "notification" && opts.showNotifications.value) {
+		// Check if we have permission
+		chrome.notifications.getPermissionLevel(function(level) {
+			if(level == "denied") return;
 
-		chrome.windows.get(sender.tab.windowId, function(win) {
-			// Don't show notification if user is still on marmoset
-			if (win.focused && sender.tab.active) return;
+			chrome.windows.get(sender.tab.windowId, function(win) {
+				// Don't show notification if user is still on marmoset
+				if (win.focused && sender.tab.active) return;
 
-			chrome.notifications.create('', request.notification,
-				function(notificationId) {
-					// Add URL to activeNotifications so we can access it
-					// on button click
-					request.sender = sender;
-					activeNotifications[notificationId] = request;
+				chrome.notifications.create('', request.notification,
+					function(notificationId) {
+						// Add URL to activeNotifications so we can access it
+						// on button click
+						request.sender = sender;
+						activeNotifications[notificationId] = request;
 				});
-
+			});
 		});
 	}
 });
