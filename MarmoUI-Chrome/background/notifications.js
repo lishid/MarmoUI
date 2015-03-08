@@ -71,7 +71,16 @@ function focusMarmoUI(notificationId) {
 	chrome.notifications.clear(notificationId, function() {});
 }
 
+// Opens the options page
+function openOptions() {
+	chrome.tabs.create({url: 'chrome://extensions/?options=' + chrome.runtime.id}, function(tab) {
+		// Bring window to focus
+		chrome.windows.update(tab.windowId, {focused:true}, function() {});
+	});
+}
+
 // Registering listeners
 chrome.notifications.onButtonClicked.addListener(openResults)
 chrome.notifications.onClosed.addListener(notificationDeactivated);
 chrome.notifications.onClicked.addListener(focusMarmoUI);
+chrome.notifications.onShowSettings.addListener(openOptions);
