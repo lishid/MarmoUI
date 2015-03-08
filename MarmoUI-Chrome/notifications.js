@@ -4,13 +4,20 @@ var activeNotifications = {};
 chrome.runtime.onMessage.addListener(function(request, sender) {
 
 	if (request.type == "notification") {
-		chrome.notifications.create('', request.notification,
-			function(notificationId) {
-				// Add URL to activeNotifications so we can access it
-				// on button click
-				request.sender = sender;
-				activeNotifications[notificationId] = request;
-			});
+
+		chrome.windows.get(sender.tab.windowId, function(win) {
+			// Don't show notification if user is still on marmoset
+			if (win.focused && sender.tab.active) return;
+
+			chrome.notifications.create('', request.notification,
+				function(notificationId) {
+					// Add URL to activeNotifications so we can access it
+					// on button click
+					request.sender = sender;
+					activeNotifications[notificationId] = request;
+				});
+
+		});
 	}
 });
 
