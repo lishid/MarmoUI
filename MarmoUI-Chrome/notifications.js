@@ -43,13 +43,6 @@ function focusMarmoUI(notificationId) {
 			// focus
 			chrome.windows.update(windowId, {focused: true}, function (){});
 		}
-		else {
-			// otherwise open results at previous url
-			chrome.tabs.create({url: pageUrl}, function(tab) {
-				// Focus new tab's window
-				chrome.windows.update(tab.windowId, {focused: true}, function (){ });
-			});
-		}
 	});
 
 	// check if tab still exists
