@@ -2,12 +2,14 @@
 var activeNotifications = {};
 
 chrome.runtime.onMessage.addListener(function(request, sender) {
-	var opts = JSON.parse(localStorage["opts"]);
 
-	if (request.type == "notification" && opts.showNotifications.value) {
+	if (request.type == "notification") {
 		// Check if we have permission
 		chrome.notifications.getPermissionLevel(function(level) {
-			if(level == "denied") return;
+			if(level == "denied") {
+				console.warn("Notification suppressed; Permission denied.")
+				return;
+			}
 
 			chrome.windows.get(sender.tab.windowId, function(win) {
 				// Don't show notification if user is still on marmoset
@@ -74,16 +76,7 @@ function focusMarmoUI(notificationId) {
 	chrome.notifications.clear(notificationId, function() {});
 }
 
-// Opens the options page
-function openOptions() {
-	chrome.tabs.create({url: 'chrome://extensions/?options=' + chrome.runtime.id}, function(tab) {
-		// Bring window to focus
-		chrome.windows.update(tab.windowId, {focused:true}, function() {});
-	});
-}
-
 // Registering listeners
 chrome.notifications.onButtonClicked.addListener(openResults)
 chrome.notifications.onClosed.addListener(notificationDeactivated);
 chrome.notifications.onClicked.addListener(focusMarmoUI);
-chrome.notifications.onShowSettings.addListener(openOptions);

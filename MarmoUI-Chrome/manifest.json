@@ -13,19 +13,13 @@
   "content_scripts": [
     {
       "matches": ["https://marmoset.student.cs.uwaterloo.ca/*"],
-      "js": ["content/script.js"]
+      "js": ["scripts/script.js"]
     }
   ],
 
   "background": {
     "persistent": false,
-    "scripts": ["background/notifications.js", "background/init.js"]
+    "scripts": ["scripts/notifications.js"]
   },
-  "permissions": ["notifications"],
-
-  "options_page": "options/options.html",
-  "options_ui": {
-    "page": "options/options.html",
-    "chrome_style": true
-  }
+  "permissions": ["notifications"]
 }
