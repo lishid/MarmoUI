@@ -742,6 +742,9 @@ function runMarmoUI()
 			}
 			else
 			{
+				notifyTestingComplete({
+					test: $(".nav").children().last().text()
+				})
 				//No more untested solutions, reload to see results
 				document.location.reload(true);
 			}
@@ -970,18 +973,22 @@ window.addEventListener("message", function(event) {
 	return;
 
   if (event.data.type && (event.data.type == "resultsNotification")) {
-	chrome.runtime.sendMessage({type: "notification",
+  	var toSend = {type: "notification",
 		notification: { 
 			type: "basic", 
 			iconUrl: chrome.extension.getURL("image/icon128.png"),
 			title: event.data.test + " Testing Complete",
-			message: event.data.result,
-			buttons: [{title: "View results"}],
+			message: (event.data.result ? "Result: " + event.data.result : "")
 		},
-		options: {
-			url:event.data.url
-		}
-	});
+		options: {}
+	};
+
+	// Notification has "View results" button
+	if(event.data.url) {
+		toSend.notification.buttons = [{title: "View results"}];
+		toSend.options.url = event.data.url
+	}
+	chrome.runtime.sendMessage(toSend);
   }
 }, false);
 
