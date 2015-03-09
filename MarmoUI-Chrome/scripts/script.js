@@ -524,6 +524,23 @@ function runMarmoUI()
 
 	function applyChangesProblemsList()
 	{
+
+		//After testing, loadSubmission and notify
+		function loadSubmissionAfterAsyncReload(tableCell, requestResult, requestURL) {
+			loadSubmission(tableCell, requestResult, requestURL);
+
+			// If finished testing, display notification
+			if(tableCell.find("a:contains('Not tested')").length == 0) {
+				var $a = tableCell.find("a");
+
+				notifyTestingComplete({
+					test: tableCell.parent().children().first().text().trim(),
+					result: $a.text().trim(),
+					url: 'https://marmoset.student.cs.uwaterloo.ca' + $a.attr('href')
+				});
+			}
+		}
+
 		//When async callbacks, decrypt the result from the page and integrate into the page
 		function loadSubmission(tableCell, requestResult, requestURL)
 		{
@@ -550,7 +567,7 @@ function runMarmoUI()
 			if(firstLine.find("td:contains('tested yet')").length > 0)
 			{
 				tableCell.find("a").html("Not tested (reload in <span class='update'></span> s)");
-				queueAsyncReload(tableCell, requestURL, loadSubmission, reload_time);
+				queueAsyncReload(tableCell, requestURL, loadSubmissionAfterAsyncReload, reload_time);
 			}
 			//Check if latest solution failed to compile
 			//If failed to compile, show it as uncompiled and exits
@@ -725,6 +742,9 @@ function runMarmoUI()
 			}
 			else
 			{
+				notifyTestingComplete({
+					test: $(".nav").children().last().text()
+				})
 				//No more untested solutions, reload to see results
 				document.location.reload(true);
 			}
@@ -859,8 +879,13 @@ function runMarmoUI()
 		});
 	}
 
-	//Start of actual executing code
+	// Creates desktop notification
+	function notifyTestingComplete(notification) {
+		notification.type = "resultsNotification";
+		window.postMessage(notification, "*");
+	}
 
+	//Start of actual executing code
 	//Find out which page we're on
 	var path = $(location).attr("href");
 	//Check which page we're on
@@ -939,5 +964,33 @@ function runMarmoUI()
 		break;
 	}
 }
+
+// Listener to handle desktop notifications
+// (notification goes from page context -> content-script -> background page (notifications.js))
+window.addEventListener("message", function(event) {
+  // We only accept messages from ourselves
+  if (event.source != window)
+	return;
+
+  if (event.data.type && (event.data.type == "resultsNotification")) {
+  	var toSend = {type: "notification",
+		notification: { 
+			type: "basic", 
+			iconUrl: chrome.extension.getURL("image/icon128.png"),
+			title: event.data.test + " Testing Complete",
+			message: (event.data.result ? "Result: " + event.data.result : "")
+		},
+		options: {}
+	};
+
+	// Notification has "View results" button
+	if(event.data.url) {
+		toSend.notification.buttons = [{title: "View results"}];
+		toSend.options.url = event.data.url
+	}
+	chrome.runtime.sendMessage(toSend);
+  }
+}, false);
+
 
 loadMarmoUI(runMarmoUI);
