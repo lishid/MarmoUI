@@ -275,11 +275,14 @@ function runMarmoUI()
 
 						a = $.text([a]);
 						b = $.text([b]);
-						
-						if(parseInt(a) && parseInt(b)) {
-							a = parseInt(a);
-							b = parseInt(b);
-						} 
+
+                        if(parseMarmosetDate(a) && parseMarmosetDate(b)) {
+                            a = parseMarmosetDate(a);
+                            b = parseMarmosetDate(b);
+                        } else if(parseInt(a) && parseInt(b)) {
+                            a = parseInt(a);
+                            b = parseInt(b);
+                        }
 
 						return a > b ? (inverse ? -1 : 1) : (inverse ? 1 : -1);
 					}, function()
@@ -308,10 +311,28 @@ function runMarmoUI()
 		}
 	}
 
-	function parseMarmosetDate(date)
-	{
-		return Date.parse((new Date()).getFullYear() + " " + date.split(",")[1].match(/[a-zA-Z0-9 \:]+/)[0].trim().replace(" at ", " "));
-	}
+    function parseMarmosetDate(date)
+    {
+        date=date.trim();
+        //Parse date in form:  08 Nov, 10:00 PM
+        function shortForm(){
+            return Date.parse((new Date()).getFullYear() + " " + date.replace(",","").match(/[a-zA-Z0-9 \:]+/)[0].trim());
+        }
+        //Parse date in form: Fri, 27 Oct 2017 at 11:21 PM
+        function longForm(){
+            return Date.parse(date.split(",")[1].match(/[a-zA-Z0-9 \:]+/)[0].trim().replace(" at ", " "));
+        }
+        //Parse date in form: Fri, 27 Oct at 11:26 PM
+        function tokenForm() {
+            return Date.parse((new Date()).getFullYear() + " " + date.split(",")[1].match(/[a-zA-Z0-9 \:]+/)[0].trim().replace(" at ", " "));
+        }
+        try {
+            return shortForm() || longForm() || tokenForm();
+        }
+        catch (err){
+            return false;
+        }
+    }
 
 	//Trims the .text() of all jquery elements
 	function trimInner(elements)
