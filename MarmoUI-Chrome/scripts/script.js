@@ -328,7 +328,8 @@ function runMarmoUI()
             return Date.parse((new Date()).getFullYear() + " " + date.split(",")[1].match(/[a-zA-Z0-9 \:]+/)[0].trim().replace(" at ", " "));
         }
         try {
-            return shortForm() || longForm() || tokenForm();
+						if (date.match(/(19|20)\d{2}/)) return longForm();
+						return shortForm() || tokenForm();
         }
         catch (err){
             return false;
