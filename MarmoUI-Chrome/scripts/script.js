@@ -38,10 +38,12 @@ var global_css = "body,h1,h2,h3{font-family:'Droid Sans',helvetica,arial,sans-se
 function loadMarmoUI(run)
 {
 	//Utility functions
+	/*
 	function getProtocol()
 	{
 		return "https:" == document.location.protocol ? "https" : "http";
 	}
+	*/
 
 	function appendToHead(element)
 	{
@@ -76,6 +78,7 @@ function loadMarmoUI(run)
 	}*/
 
 	//Load jQuery from Google CDN
+	/*
 	function loadJQuery(run)
 	{
 		//Don't load twice
@@ -100,10 +103,12 @@ function loadMarmoUI(run)
 		}, false);
 		appendToHead(script);
 	}
+	*/
 
 	//loadFonts(); - We'll use our embedded fonts for better speeds
 	loadCSS();
-	loadJQuery(run);
+	//loadJQuery(run); - jQuery is loaded by the manifest
+	run();
 }
 
 function runMarmoUI()
@@ -541,7 +546,7 @@ function runMarmoUI()
 		*/
 
 		//Google analytics helps for statistics
-		$("body").append("<script type='text/javascript'>var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-38018139-1']); _gaq.push(['_trackPageview']);(function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>");
+		//$("body").append("<script type='text/javascript'>var _gaq = _gaq || []; _gaq.push(['_setAccount', 'UA-38018139-1']); _gaq.push(['_trackPageview']);(function() { var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true; ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s); })();</script>");
 	}
 
 	function applyChangesProblemsList()
@@ -998,7 +1003,7 @@ window.addEventListener("message", function(event) {
   	var toSend = {type: "notification",
 		notification: { 
 			type: "basic", 
-			iconUrl: chrome.extension.getURL("image/icon128.png"),
+			iconUrl: chrome.runtime.getURL("image/icon128.png"),
 			title: event.data.test + " Testing Complete",
 			message: (event.data.result ? "Result: " + event.data.result : "")
 		},

@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
 
   "name": "MarmoUI",
   "description": "Marmoset Improved! Better UI and functionality",
@@ -14,13 +14,12 @@
     {
       "matches": ["https://*.uwaterloo.ca/*"],
       "include_globs": ["https://marmoset*"],
-      "js": ["scripts/script.js"]
+      "js": ["scripts/jquery.js", "scripts/script.js"]
     }
   ],
 
   "background": {
-    "persistent": false,
-    "scripts": ["scripts/notifications.js"]
+    "service_worker": "scripts/notifications.js"
   },
   "permissions": ["notifications"]
 }
