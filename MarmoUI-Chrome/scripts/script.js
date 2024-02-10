@@ -856,9 +856,10 @@ function runMarmoUI()
 		//Remove deadline
 		$("p:contains('Deadline')").remove();
 		$("th:contains('test')").text("Test");
-		//For those who failed the test, change the pre to a normal p
-		var pre = $("pre").eq(0).text();
-		$("pre").eq(0).replaceWith("<div class='build-output'><pre>" + pre + "</pre></div>");
+		//Format long result output
+		$("pre").replaceWith(function() {
+			return "<div class='build-output'><pre>" + $(this).text() + "</pre></div>";
+		});
 		//Make the scores bigger
 		$("p:contains('points for')").each(function(index, value){var inner = $(value).html(); $(value).replaceWith("<h3 style='color:#fc3;font-weight:bold;'>" + inner + "</h3>");});
 		//Add sorting to table
