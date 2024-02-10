@@ -664,8 +664,8 @@ function runMarmoUI()
 			}
 			catch(error)
 			{
-				//Set to 3 tokens if we can't find the token string
-				tableCell.html("3");
+				//Set to N/A if we can't find the token string
+				tableCell.html("N/A");
 			}
 		}
 
