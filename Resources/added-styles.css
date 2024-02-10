@@ -398,7 +398,7 @@ div.build-output {
 	width: 85%;
 	background: #FFE799;
 	color: #111;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 
 div.build-output pre {
