@@ -652,10 +652,8 @@ function runMarmoUI()
 				//Find the next release token availability
 				if(pendingTokens)
 				{
-					//First release token
-					var tmp = pendingTokens[tokens.length - 1];
 					//Calculate time difference
-					var nextToken = parseMarmosetDate(tmp) - Date.now();
+					var nextToken = parseMarmosetDate(pendingTokens[0]) - Date.now();
 					//Add in the text for the next token time
 					tokenText += " (renew in " + Math.floor(nextToken / 3600000) + "h " + Math.floor((nextToken % 3600000) / 60000) + "m)";
 				}
