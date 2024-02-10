@@ -645,14 +645,15 @@ function runMarmoUI()
 			try
 			{
 				//Grab the token from the page
-				var tokens = requestResult.match(/You currently have \d+ release/)[0].match(/\d+/)[0];
+				var tokens = requestResult.match(/You currently have (\d+) release/)[1];
 				var tokenText = tokens;
+				//Get list of pending tokens
+				var pendingTokens = requestResult.match(/\<li\>[a-zA-Z0-9 ,\:]+\<br\>/g);
 				//Find the next release token availability
-				if(tokens < 3)
+				if(pendingTokens)
 				{
 					//First release token
-					var tokens = requestResult.match(/\<li\>[a-zA-Z0-9 ,\:]+\<br\>/g);
-					var tmp = tokens[tokens.length - 1];
+					var tmp = pendingTokens[tokens.length - 1];
 					//Calculate time difference
 					var nextToken = parseMarmosetDate(tmp) - Date.now();
 					//Add in the text for the next token time
