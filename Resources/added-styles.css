@@ -393,20 +393,26 @@ col.right {
 	border-right: 0px solid black;
 }
 
-div.build-output {
-	margin: 1em 7.5%;
-	width: 85%;
-	background: #FFE799;
+.build-output {
+	padding: 1em 2em;
+	background: #ffe79989;
 	color: #111;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 
-div.build-output pre {
+.build-output pre {
 	padding: 1em 2em;
 	letter-spacing: 1px;
 	font-family: monospace;
 	white-space: pre;
 	letter-spacing: 1px;
+	padding: 0;
+	margin: 0; 
+	border: none;
+}
+
+.build-output pre span{
+	background: none;
 }
 
 form { padding: 0; margin: 0; }
