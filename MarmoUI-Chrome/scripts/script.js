@@ -539,9 +539,13 @@ function runMarmoUI()
 		//Load the updater - This will only show if the updater loads and is of a different version
 		/*
 		$("head").append("<link href='" + update_location + "' type='text/css' rel='stylesheet'/>");
-		$("body").prepend("<div style='display:none;' class='notifier-update'>" +
-			"<a class='notifier-text' href='" + update_download + "' target='_blank'>Update available: <span class='notifier-text-inner'></span></a>" +
-			"<a class='notifier-close' href='#' onclick='$(\".notifier-update\").fadeOut().queue(function(){$(this).remove();}); return false;'>x</a></div>");
+		$("body").prepend($("<div style='display:none;' class='notifier-update'>").append(
+			"<a class='notifier-text' href='" + update_download + "' target='_blank'>Update available: <span class='notifier-text-inner'></span></a>",
+			$("<a class='notifier-close' href='#'>x</a>").on("click", function(e) {
+				e.preventDefault();
+				$(".notifier-update").fadeOut().queue(function(){$(this).remove();});
+			})
+		));
 		$("body").addClass(current_version);
 		*/
 
@@ -725,7 +729,7 @@ function runMarmoUI()
 			//Reset popup html
 			var popup = $(".submission-popup").html("");
 			//Add Close, Project, Submissions and Deadline
-			popup.append("<a id='submission-close' href='#' onclick='$(\"#submission-box\").hide();return false;'>Close</a>");
+			popup.append($("<a id='submission-close' href='#'>Close</a>").on("click", function(e) { e.preventDefault(); $("#submission-box").hide(); }));
 			popup.append("<h2>Project: " + row.find("td:eq(0)").html() + " (" + row.find("td:eq(6)").html() + ")</h2>");
 			popup.append("<p>Submissions: <a href='" + row.find("td:eq(1) a").attr("href") + "'>view</a></p>");
 			popup.append("<p>Due: " + row.find("td:eq(5)").html() + "</p>");
@@ -733,8 +737,8 @@ function runMarmoUI()
 			popup.append("<form target='sumbission-loader' enctype='multipart/form-data' action='/action/SubmitProjectViaWeb' method='POST'>" +
 			"<input type='hidden' name='projectPK' value='" + projectPK + "'>" +
 			"<input type='hidden' name='submitClientTool' value='web'>" +
-			"<input type='file' name='file' size='20'></form>" + 
-			"<div class='submit-button'><p><a onclick='$(\"form\").submit();'>Submit</a></p></div>");
+			"<input type='file' name='file' size='20'></form>");
+			popup.append($("<div class='submit-button'><p><a>Submit</a></p></div>").find("a").on("click", function() { $("form").submit(); }).end());
 
 			//Fix the anchor having an extra space at the end
 			trimInner($("h2 a"));
@@ -829,14 +833,14 @@ function runMarmoUI()
 			//Reset popup html
 			var popup = $(".submission-popup").html("");
 			//Add Close, Project, Submissions and Deadline
-			popup.append("<a id='submission-close' href='#' onclick='$(\"#submission-box\").hide();return false;'>Close</a>");
+			popup.append($("<a id='submission-close' href='#'>Close</a>").on("click", function (e) { e.preventDefault(); $("#submission-box").hide(); }));
 			popup.append("<p>Due: " + $("p:contains('Deadline')").html().replace("<b>Deadline:</b>", "").trim() + "</p>");
 			//Add the submission form
 			popup.append("<form target='sumbission-loader' enctype='multipart/form-data' action='/action/SubmitProjectViaWeb' method='POST'>" +
 			"<input type='hidden' name='projectPK' value='" + projectPK + "'>" +
 			"<input type='hidden' name='submitClientTool' value='web'>" +
-			"<input type='file' name='file' size='20'></form>" + 
-			"<div class='submit-button'><p><a onclick='$(\"form\").submit();'>Submit</a></p></div>");
+			"<input type='file' name='file' size='20'></form>");
+			popup.append($("<div class='submit-button'><p><a>Submit</a></p></div>").find("a").on("click", function() { $("form").submit(); }).end());
 			//Show the popup box
 			$("#submission-box").show();
 		});
@@ -886,11 +890,17 @@ function runMarmoUI()
 			var submissionPK = releaseTestElement.find("a").attr("href").match("submissionPK=([0-9]+)")[1];
 			releaseTestElement.replaceWith(
 				// <input type='submit' value='OK'>
-				"<form method='POST' action='/action/RequestReleaseTest'><div class='submit-button' style='width:10em'><p>" +
+				$("<form method='POST' action='/action/RequestReleaseTest'><div class='submit-button' style='width:10em'><p>" +
 				"<input type='hidden' name='submissionPK' value='" + submissionPK + "'>" +
-				"<a href='" + link + "' onclick='if(confirm(\"Are you sure you want to release test this?\")){$(\"form\").submit();} return false;'>" +
+				"<a href='" + link + "'>" +
 				"Release Test" +
-				"</a></p><div></form>");
+				"</a></p><div></form>").find("a").on("click", function(e) {
+					e.preventDefault();
+
+					if (confirm("Are you sure you want to release test this?")) {
+						$("form").submit();
+					}
+				}).end());
 		}
 		//Release tokens
 		$("ul").eq(0).addClass("release-tokens");
@@ -934,7 +944,7 @@ function runMarmoUI()
 			//Remove Logout button
 			$("div.logout").remove();
 			//Chang submit button
-			$("input[type='submit']").attr("value", "Use this account").attr("onclick", "$(this).attr('value', 'as')");
+			$("input[type='submit']").attr("value", "Use this account").on("click", function() { $(this).attr('value', 'as') });
 			$("p:contains('please login as')").remove();
 		break;
 		case PAGE.COURSE_LIST.value:
@@ -969,7 +979,7 @@ function runMarmoUI()
 		break;
 		case PAGE.ERROR.value:
 			//Change navigation for a go back button
-			$(".nav").html("<a href='#' onclick='history.back(); return false;'>Go back</a>");
+			$(".nav").empty().append($("<a href='#'>Go back").on("click", function(e) { e.preventDefault(); history.back(); }));
 			//Remove the ugly image
 			$("p img").remove();
 			//Add something more constructive inside the title
